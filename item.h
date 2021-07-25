@@ -11,13 +11,14 @@ public:
 	enum types
 	{
 		COIN = 1,
-		ETC
+		POWERUP,
 	};
 
 	int animateSpriteNumber = 0;
 	int delayCounter = 0;
 	int animateDelay = 5;
 	int type = 0;
+	float scaleValue = 0.f;
 
 	void update();
 	void animate();

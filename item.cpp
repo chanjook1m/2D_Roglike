@@ -7,11 +7,21 @@ Item::Item(int temp_x, int temp_y, int width, int height, int temp_type)
     x = temp_x;
     y = temp_y;
     type = temp_type;
+    if (type == COIN)
+    {
+        scaleValue = 0.2;
+    }
+    else if (type == POWERUP)
+    {
+        scaleValue = 0.4;
+
+    }
 
 	collisionRect.setSize(sf::Vector2f(spriteWidth, spriteHeight));
 	collisionRect.setPosition(0, 0);
 	collisionRect.setFillColor(sf::Color::Cyan);
-    collisionRect.setScale(sf::Vector2f(0.2, 0.2));
+    collisionRect.setScale(sf::Vector2f(scaleValue, scaleValue));
+    sprite.setScale(sf::Vector2f(scaleValue, scaleValue));
 	sprite.setTextureRect(sf::IntRect(x, y, spriteWidth, spriteHeight));
 }
 

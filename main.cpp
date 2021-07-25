@@ -16,7 +16,7 @@ using namespace std;
 enum types
 {
     COIN = 1,
-    ETC
+    POWERUP,
 };
 
 int main()
@@ -41,6 +41,12 @@ int main()
 
     sf::Texture coinTexture;
     if (!coinTexture.loadFromFile(RESOURCE_DIR + "coin.png"))
+    {
+        return EXIT_FAILURE;
+    }
+
+    sf::Texture powerUpTexture;
+    if (!powerUpTexture.loadFromFile(RESOURCE_DIR + "powerup.png"))
     {
         return EXIT_FAILURE;
     }
@@ -128,6 +134,9 @@ int main()
     sf::Text scoreText("Score: ", maumFont, 50);
     scoreText.setPosition(50, 50);
 
+    sf::Text powerUpText("Power Level: ", maumFont, 50);
+    powerUpText.setPosition(50, 100);
+
     sf::Clock projectileClock;
     sf::Clock playerCollisionClock;
     sf::Clock clock3;
@@ -190,6 +199,11 @@ int main()
                 {
                     player1.hp -= enemyArr[counter].attackDamage;
 
+                    if (player1.powerUpLevel > 1)
+                    {
+                        player1.powerUpLevel--;
+                    }
+
                     ingameText.text.setFillColor(sf::Color::Yellow);
                     ingameText.text.setString(to_string((int)enemyArr[counter].attackDamage));
                     ingameText.text.setPosition(player1.collisionRect.getPosition().x + player1.collisionRect.getSize().x / 2,
@@ -206,8 +220,16 @@ int main()
         {
             if (player1.collisionRect.getGlobalBounds().intersects(itemArr[counter].collisionRect.getGlobalBounds()))
             {
-                if (itemArr[counter].type == COIN) {
+                if (itemArr[counter].type == COIN) 
+                {
                     player1.score++;
+                } 
+                else if (itemArr[counter].type == POWERUP)
+                {
+                    if (player1.powerUpLevel < player1.maxPowerUpLevel)
+                    {
+                        player1.powerUpLevel++;
+                    }
                 }
                 itemArr[counter].isAlive = false;
             }
@@ -317,6 +339,16 @@ int main()
                 // generate item           
                 if (generateRandom(4) == 1)
                 {
+                    item = Item(10, 10, 200, 150, COIN);
+                    item.sprite.setTexture(coinTexture);
+                    item.collisionRect.setPosition(enemyArr[counter].collisionRect.getPosition());
+                    itemArr.push_back(item);
+                } 
+                else if (generateRandom(4) == 2)
+                {
+                    
+                    item = Item(0, 0, 100, 100, POWERUP);
+                    item.sprite.setTexture(powerUpTexture);
                     item.collisionRect.setPosition(enemyArr[counter].collisionRect.getPosition());
                     itemArr.push_back(item);
                 }
@@ -369,9 +401,19 @@ int main()
         {
             if (wallArr[counter].isAlive == false)
             {
-                // generate item           
+                // generate item
                 if (generateRandom(4) == 1)
                 {
+                    item = Item(10, 10, 200, 150, COIN);
+                    item.sprite.setTexture(coinTexture);
+                    item.collisionRect.setPosition(wallArr[counter].collisionRect.getPosition());
+                    itemArr.push_back(item);
+                }
+                else if (generateRandom(4) == 2)
+                {
+                    
+                    item = Item(0, 0, 100, 100, POWERUP);
+                    item.sprite.setTexture(powerUpTexture);
                     item.collisionRect.setPosition(wallArr[counter].collisionRect.getPosition());
                     itemArr.push_back(item);
                 }
@@ -390,15 +432,21 @@ int main()
         }
 
         // create projectile (space-Key)
+        counter = 0;
         if (projectileClockElapsed.asSeconds() >= 0.2 && sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {
             projectileClock.restart();
             projectile.sprite = energyBallSprite;
-            projectile.collisionRect.setPosition(
-                player1.collisionRect.getPosition().x,
-                player1.collisionRect.getPosition().y);
-            projectile.direction = player1.direction;
-            projectileArr.push_back(projectile);
+
+            while (counter < player1.powerUpLevel)
+            {
+                projectile.collisionRect.setPosition(
+                    player1.collisionRect.getPosition().x + counter * generateRandom(10),
+                    player1.collisionRect.getPosition().y + counter * generateRandom(10));
+                projectile.direction = player1.direction;
+                projectileArr.push_back(projectile);
+                counter++;
+            }
         }
 
         // draw projectile
@@ -435,6 +483,8 @@ int main()
         player1.update();
         scoreText.setString("Score: " + to_string(player1.score));
         window.draw(scoreText);
+        powerUpText.setString("Power Level: " + to_string(player1.powerUpLevel));
+        window.draw(powerUpText);
         
         // draw ingameText
         counter = 0;
