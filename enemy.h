@@ -14,6 +14,10 @@ public:
 	int movementDelay = 100;
 	int hp = 3;
 
+	bool canMoveUp = true;
+	bool canMoveDown = true;
+	bool canMoveLeft = true;
+	bool canMoveRight = true;
 
 	Enemy(int x, int y, int width, int height);
 	~Enemy();

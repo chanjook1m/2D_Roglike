@@ -10,8 +10,7 @@
 #include "item.h"
 #include "wall.h"
 #include "animatedGIF.h"
-
-#define RESOURCE_DIR (string)"C:\\Users\\1z3r0\\Desktop\\game_project\\RPG\\Resources\\"
+#define RESOURCE_DIR (string)"C:\\Users\\1z3r0\\Desktop\\game\\2D_Roguelike\\Resources\\"
 using namespace std;
 
 enum types
@@ -48,7 +47,7 @@ int main()
 
     AnimatedGIF gif((RESOURCE_DIR + "energyball.gif").c_str());
     sf::Sprite energyBallSprite;
-    energyBallSprite.setScale(sf::Vector2f(0.2, 0.2));
+    energyBallSprite.setScale(sf::Vector2f(0.1, 0.1));
 
     sf::Font maumFont;
     if (!maumFont.loadFromFile(RESOURCE_DIR + "godoMaum.ttf")) 
@@ -84,24 +83,33 @@ int main()
     vector<Wall> wallArr;
     Wall wall;
 
+    //wall.destructible = true;
     int roomSize = 5;
     int verticalDoorAt = 2;
     int horizontalDoorAt = 2;
     int initialRoomX = 200;
     int initialRoomY = 300;
-
+    
     counter = 0;
     while (counter < roomSize)
     {
         wall.collisionRect.setPosition(50 * counter + initialRoomX, initialRoomY);
+        wall.destructible = generateRandomBool();
+        wall.collisionRect.setFillColor(wall.destructible ? sf::Color::Magenta : sf::Color::White);
         wallArr.push_back(wall);
         wall.collisionRect.setPosition(50 * counter + initialRoomX, 50 * roomSize + initialRoomY);
+        wall.destructible = generateRandomBool();
+        wall.collisionRect.setFillColor(wall.destructible ? sf::Color::Magenta : sf::Color::White);
         wallArr.push_back(wall);
         wall.collisionRect.setPosition(initialRoomX, 50 * counter + initialRoomY);
+        wall.destructible = generateRandomBool();
+        wall.collisionRect.setFillColor(wall.destructible ? sf::Color::Magenta : sf::Color::White);
         wallArr.push_back(wall);
         if (counter != verticalDoorAt)
         {
             wall.collisionRect.setPosition(50 * roomSize + initialRoomX, 50 * counter + initialRoomY);
+            wall.destructible = generateRandomBool();
+            wall.collisionRect.setFillColor(wall.destructible ? sf::Color::Magenta : sf::Color::White);
             wallArr.push_back(wall);
         }
         counter++;
@@ -171,6 +179,135 @@ int main()
             counter++;
         }
 
+        // player-enemy collision
+        if (playerCollisionClockElapsed.asSeconds() >= 0.5)
+        {
+            playerCollisionClock.restart();
+            counter = 0;
+            for (enemyIter = enemyArr.begin(); enemyIter != enemyArr.end(); enemyIter++)
+            {
+                if (player1.collisionRect.getGlobalBounds().intersects(enemyArr[counter].collisionRect.getGlobalBounds()))
+                {
+                    player1.hp -= enemyArr[counter].attackDamage;
+
+                    ingameText.text.setFillColor(sf::Color::Yellow);
+                    ingameText.text.setString(to_string((int)enemyArr[counter].attackDamage));
+                    ingameText.text.setPosition(player1.collisionRect.getPosition().x + player1.collisionRect.getSize().x / 2,
+                        player1.collisionRect.getPosition().y - player1.collisionRect.getSize().y / 2);
+                    ingameTextArr.push_back(ingameText);
+                }
+                counter++;
+            }
+        }
+
+        // player-item collision
+        counter = 0;
+        for (itemIter = itemArr.begin(); itemIter != itemArr.end(); itemIter++)
+        {
+            if (player1.collisionRect.getGlobalBounds().intersects(itemArr[counter].collisionRect.getGlobalBounds()))
+            {
+                if (itemArr[counter].type == COIN) {
+                    player1.score++;
+                }
+                itemArr[counter].isAlive = false;
+            }
+            counter++;
+        }
+
+        // player-wall collision
+        counter = 0;
+        for (wallIter = wallArr.begin(); wallIter != wallArr.end(); wallIter++)
+        {
+            if (player1.collisionRect.getGlobalBounds().intersects(wallArr[counter].collisionRect.getGlobalBounds()))
+            {
+                if (player1.direction == 1)
+                {
+                    player1.canMoveUp = false;
+                    player1.collisionRect.move(0, player1.velocity);
+                }
+                else if (player1.direction == 2)
+                {
+                    player1.canMoveDown = false;
+                    player1.collisionRect.move(0, -player1.velocity);
+                }
+                else if (player1.direction == 3)
+                {
+                    player1.canMoveLeft = false;
+                    player1.collisionRect.move(player1.velocity, 0);
+                }
+                else if (player1.direction == 4)
+                {
+                    player1.canMoveRight = false;
+                    player1.collisionRect.move(-player1.velocity, 0);
+                }
+            }
+            counter++;
+        }
+
+        // enemy-wall collision
+        counter = 0;
+        for (enemyIter = enemyArr.begin(); enemyIter != enemyArr.end(); enemyIter++)
+        {
+            counter2 = 0;
+            for (wallIter = wallArr.begin(); wallIter != wallArr.end(); wallIter++)
+            {
+                if (enemyArr[counter].collisionRect.getGlobalBounds().intersects(wallArr[counter2].collisionRect.getGlobalBounds()))
+                {
+                    if (enemyArr[counter].direction == 1)
+                    {
+                        enemyArr[counter].canMoveUp = false;
+                        enemyArr[counter].collisionRect.move(0, enemyArr[counter].velocity);
+                    }
+                    else if (enemyArr[counter].direction == 2)
+                    {
+                        enemyArr[counter].canMoveDown = false;
+                        enemyArr[counter].collisionRect.move(0, -enemyArr[counter].velocity);
+                    }
+                    else if (enemyArr[counter].direction == 3)
+                    {
+                        enemyArr[counter].canMoveLeft = false;
+                        enemyArr[counter].collisionRect.move(enemyArr[counter].velocity, 0);
+                    }
+                    else if (enemyArr[counter].direction == 4)
+                    {
+                        enemyArr[counter].canMoveRight = false;
+                        enemyArr[counter].collisionRect.move(-enemyArr[counter].velocity, 0);
+                    }
+                }
+
+                counter2++;
+            }
+            counter++;
+        }
+
+        // projectile-wall collision
+        counter = 0;
+        for (projectileIter = projectileArr.begin(); projectileIter != projectileArr.end(); projectileIter++)
+        {
+            counter2 = 0;
+            for (wallIter = wallArr.begin(); wallIter != wallArr.end(); wallIter++)
+            {
+                if (projectileArr[counter].collisionRect.getGlobalBounds().intersects(wallArr[counter2].collisionRect.getGlobalBounds()))
+                {
+                    if (wallArr[counter2].destructible == true)
+                    {
+                        wallArr[counter2].hp -= projectileArr[counter].attackDamage;
+
+                        if (wallArr[counter2].hp <= 0)
+                        {
+                            wallArr[counter2].isAlive = false;
+                        }
+                    }
+
+                    projectileArr[counter].isAlive = false;
+                }
+
+                counter2++;
+            }
+            counter++;
+        }
+
+
         // delete not alive enemy
         counter = 0;
         for (enemyIter = enemyArr.begin(); enemyIter != enemyArr.end(); enemyIter++)
@@ -226,67 +363,21 @@ int main()
             counter++;
         }
 
-        // player-enemy collision
-        if (playerCollisionClockElapsed.asSeconds() >= 0.5)
-        {
-            playerCollisionClock.restart();
-            counter = 0;
-            for (enemyIter = enemyArr.begin(); enemyIter != enemyArr.end(); enemyIter++)
-            {
-                if (player1.collisionRect.getGlobalBounds().intersects(enemyArr[counter].collisionRect.getGlobalBounds()))
-                {
-                    player1.hp -= enemyArr[counter].attackDamage;
-
-                    ingameText.text.setFillColor(sf::Color::Yellow);
-                    ingameText.text.setString(to_string((int)enemyArr[counter].attackDamage));
-                    ingameText.text.setPosition(player1.collisionRect.getPosition().x + player1.collisionRect.getSize().x / 2,
-                        player1.collisionRect.getPosition().y - player1.collisionRect.getSize().y / 2);
-                    ingameTextArr.push_back(ingameText);
-                }
-                counter++;
-            }
-        }
-
-        // player-item collision
-        counter = 0;
-        for (itemIter = itemArr.begin(); itemIter != itemArr.end(); itemIter++)
-        {
-            if (player1.collisionRect.getGlobalBounds().intersects(itemArr[counter].collisionRect.getGlobalBounds()))
-            {
-                if (itemArr[counter].type == COIN) {
-                    player1.score++;
-                }
-                itemArr[counter].isAlive = false;
-            }
-            counter++;
-        }
-
-        // player-wall collision
+        // delete not alive wall
         counter = 0;
         for (wallIter = wallArr.begin(); wallIter != wallArr.end(); wallIter++)
         {
-            if (player1.collisionRect.getGlobalBounds().intersects(wallArr[counter].collisionRect.getGlobalBounds()))
+            if (wallArr[counter].isAlive == false)
             {
-                if (player1.direction == 1)
+                // generate item           
+                if (generateRandom(4) == 1)
                 {
-                    player1.canMoveUp = false;
-                    player1.collisionRect.move(0, 1);
+                    item.collisionRect.setPosition(wallArr[counter].collisionRect.getPosition());
+                    itemArr.push_back(item);
                 }
-                else if (player1.direction == 2)
-                {
-                    player1.canMoveDown = false;
-                    player1.collisionRect.move(0, -1);
-                }
-                else if (player1.direction == 3)
-                {
-                    player1.canMoveLeft = false;
-                    player1.collisionRect.move(1, 0);
-                }
-                else if (player1.direction == 4)
-                {
-                    player1.canMoveRight = false;
-                    player1.collisionRect.move(-1, 0);
-                }
+
+                wallArr.erase(wallIter);
+                break;
             }
             counter++;
         }
@@ -299,7 +390,7 @@ int main()
         }
 
         // create projectile (space-Key)
-        if (projectileClockElapsed.asSeconds() >= 0.5 && sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        if (projectileClockElapsed.asSeconds() >= 0.2 && sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {
             projectileClock.restart();
             projectile.sprite = energyBallSprite;

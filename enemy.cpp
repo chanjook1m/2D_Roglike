@@ -23,29 +23,32 @@ void Enemy::update()
 
 void Enemy::move()
 {
-    if (direction == 1)
+    if (direction == 1 && canMoveUp)
     {
         collisionRect.move(0.f, -velocity);
         sprite.setTextureRect(sf::IntRect(walkSpriteNumber * spriteWidth, spriteHeight * 2, spriteWidth, spriteHeight));
     }
-    else if (direction == 2)
+    else if (direction == 2 && canMoveDown)
     {
         collisionRect.move(0.f, velocity);
         sprite.setTextureRect(sf::IntRect(walkSpriteNumber * spriteWidth, 0, spriteWidth, spriteHeight));
     }
-    else if (direction == 3)
+    else if (direction == 3 && canMoveLeft)
     {
         collisionRect.move(-velocity, 0.f);
         sprite.setTextureRect(sf::IntRect(walkSpriteNumber * spriteWidth, spriteHeight * 1, spriteWidth, spriteHeight));
     }
-    else if (direction == 4)
+    else if (direction == 4 && canMoveRight)
     {
         collisionRect.move(velocity, 0.f);
         sprite.setTextureRect(sf::IntRect(walkSpriteNumber * spriteWidth, spriteHeight * 3, spriteWidth, spriteHeight));
     }
     else
     {
-
+        canMoveUp = true;
+        canMoveDown = true;
+        canMoveLeft = true;
+        canMoveRight = true;
     }
 
     walkSpriteNumber++;

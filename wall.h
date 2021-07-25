@@ -7,5 +7,8 @@ class Wall: public Entity
 public:
 	Wall();
 	~Wall();
+
+	bool destructible = false;
+	int hp = 3;
 };
 
