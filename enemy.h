@@ -6,8 +6,8 @@
 class Enemy: public Entity
 {
 public:
-	float velocity = 0.f;
-	float attackDamage = 0.f;
+	float velocity = 2.0f;
+	float attackDamage = 5.0f;
 	int walkSpriteNumber = 0;
 	int direction = 0;
 	int delayCounter = 0;

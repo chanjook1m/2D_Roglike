@@ -7,7 +7,7 @@ Projectile::Projectile()
 	collisionRect.setFillColor(sf::Color::Green);
 
 	velocity = 3.0f;
-	attackDamage = 5.0f;
+	attackDamage = 1.0f;
 }
 
 Projectile::~Projectile()

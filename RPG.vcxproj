@@ -157,6 +157,7 @@
   <ItemGroup>
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="entity.cpp" />
+    <ClCompile Include="ingameText.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="projectile.cpp" />
@@ -169,6 +170,7 @@
   <ItemGroup>
     <ClInclude Include="enemy.h" />
     <ClInclude Include="entity.h" />
+    <ClInclude Include="ingameText.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="projectile.h" />
     <ClInclude Include="random.h" />
