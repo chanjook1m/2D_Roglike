@@ -1,16 +1,26 @@
 ﻿  main.cpp
-C:\Users\1z3r0\Desktop\game_project\RPG\main.cpp(47,52): warning C4305: '인수': 'double'에서 'T'(으)로 잘립니다.
+C:\Users\1z3r0\Desktop\game_project\RPG\main.cpp(51,52): warning C4305: '인수': 'double'에서 'T'(으)로 잘립니다.
           with
           [
               T=float
           ]
-C:\Users\1z3r0\Desktop\game_project\RPG\main.cpp(75,47): warning C4305: '인수': 'double'에서 'T'(으)로 잘립니다.
+C:\Users\1z3r0\Desktop\game_project\RPG\main.cpp(79,47): warning C4305: '인수': 'double'에서 'T'(으)로 잘립니다.
           with
           [
               T=float
           ]
-C:\Users\1z3r0\Desktop\game_project\RPG\main.cpp(133,81): warning C4244: '-=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\1z3r0\Desktop\game_project\RPG\main.cpp(208,65): warning C4244: '-=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\1z3r0\Desktop\game_project\RPG\main.cpp(237,95): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\1z3r0\Desktop\game_project\RPG\main.cpp(237,59): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game_project\RPG\main.cpp(98,69): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game_project\RPG\main.cpp(98,53): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game_project\RPG\main.cpp(100,83): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game_project\RPG\main.cpp(100,53): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game_project\RPG\main.cpp(102,67): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game_project\RPG\main.cpp(102,40): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game_project\RPG\main.cpp(106,87): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game_project\RPG\main.cpp(106,58): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game_project\RPG\main.cpp(111,80): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game_project\RPG\main.cpp(111,50): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game_project\RPG\main.cpp(165,81): warning C4244: '-=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game_project\RPG\main.cpp(240,65): warning C4244: '-=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game_project\RPG\main.cpp(299,95): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game_project\RPG\main.cpp(299,59): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   RPG.vcxproj -> C:\Users\1z3r0\Desktop\game_project\RPG\x64\Debug\RPG.exe

@@ -5,7 +5,7 @@ Projectile::Projectile()
 	collisionRect.setSize(sf::Vector2f(8,8));
 	collisionRect.setPosition(0, 0);
 	collisionRect.setFillColor(sf::Color::Green);
-	sprite.setTextureRect(sf::IntRect(0,0,8,8));
+	//sprite.setTextureRect(sf::IntRect(0,0,8,8));
 
 	velocity = 3.0f;
 	attackDamage = 1.0f;

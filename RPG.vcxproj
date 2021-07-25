@@ -164,6 +164,7 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="projectile.cpp" />
     <ClCompile Include="random.cpp" />
+    <ClCompile Include="wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\rpg_sprite_walk.png" />
@@ -179,6 +180,7 @@
     <ClInclude Include="projectile.h" />
     <ClInclude Include="random.h" />
     <ClInclude Include="stb_image.h" />
+    <ClInclude Include="wall.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

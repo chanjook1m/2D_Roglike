@@ -8,6 +8,7 @@
 #include "random.h"
 #include "ingameText.h"
 #include "item.h"
+#include "wall.h"
 #include "animatedGIF.h"
 
 #define RESOURCE_DIR (string)"C:\\Users\\1z3r0\\Desktop\\game_project\\RPG\\Resources\\"
@@ -21,6 +22,9 @@ enum types
 
 int main()
 {
+    int counter;
+    int counter2;
+
     sf::RenderWindow window(sf::VideoMode(1000, 800), "My RPG");
     window.setFramerateLimit(60);
 
@@ -76,6 +80,35 @@ int main()
     item.collisionRect.setPosition(500, 500);
     itemArr.push_back(item);
 
+    vector<Wall>::const_iterator wallIter;
+    vector<Wall> wallArr;
+    Wall wall;
+
+    int roomSize = 5;
+    int verticalDoorAt = 2;
+    int horizontalDoorAt = 2;
+    int initialRoomX = 200;
+    int initialRoomY = 300;
+
+    counter = 0;
+    while (counter < roomSize)
+    {
+        wall.collisionRect.setPosition(50 * counter + initialRoomX, initialRoomY);
+        wallArr.push_back(wall);
+        wall.collisionRect.setPosition(50 * counter + initialRoomX, 50 * roomSize + initialRoomY);
+        wallArr.push_back(wall);
+        wall.collisionRect.setPosition(initialRoomX, 50 * counter + initialRoomY);
+        wallArr.push_back(wall);
+        if (counter != verticalDoorAt)
+        {
+            wall.collisionRect.setPosition(50 * roomSize + initialRoomX, 50 * counter + initialRoomY);
+            wallArr.push_back(wall);
+        }
+        counter++;
+    }
+    wall.collisionRect.setPosition(50 * roomSize + initialRoomX, 50 * roomSize + initialRoomY);
+    wallArr.push_back(wall);
+
     vector<IngameText>::const_iterator ingameTextIter;
     vector<IngameText> ingameTextArr;
 
@@ -86,9 +119,6 @@ int main()
 
     sf::Text scoreText("Score: ", maumFont, 50);
     scoreText.setPosition(50, 50);
-
-    int counter;
-    int counter2;
 
     sf::Clock projectileClock;
     sf::Clock playerCollisionClock;
@@ -231,6 +261,36 @@ int main()
             counter++;
         }
 
+        // player-wall collision
+        counter = 0;
+        for (wallIter = wallArr.begin(); wallIter != wallArr.end(); wallIter++)
+        {
+            if (player1.collisionRect.getGlobalBounds().intersects(wallArr[counter].collisionRect.getGlobalBounds()))
+            {
+                if (player1.direction == 1)
+                {
+                    player1.canMoveUp = false;
+                    player1.collisionRect.move(0, 1);
+                }
+                else if (player1.direction == 2)
+                {
+                    player1.canMoveDown = false;
+                    player1.collisionRect.move(0, -1);
+                }
+                else if (player1.direction == 3)
+                {
+                    player1.canMoveLeft = false;
+                    player1.collisionRect.move(1, 0);
+                }
+                else if (player1.direction == 4)
+                {
+                    player1.canMoveRight = false;
+                    player1.collisionRect.move(-1, 0);
+                }
+            }
+            counter++;
+        }
+
         // create enemy (c-Key)
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
         {
@@ -267,6 +327,15 @@ int main()
         {
             enemyArr[counter].update();
             window.draw(enemyArr[counter].sprite);
+            counter++;
+        }
+
+        // draw wall
+        counter = 0;
+        for (wallIter = wallArr.begin(); wallIter != wallArr.end(); wallIter++)
+        {
+            //wallArr[counter].update();
+            window.draw(wallArr[counter].collisionRect);
             counter++;
         }
 

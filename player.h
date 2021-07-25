@@ -12,6 +12,12 @@ public:
 	int hp = 10;
 	int score = 0;
 
+	bool canMoveUp = true;
+	bool canMoveDown = true;
+	bool canMoveLeft = true;
+	bool canMoveRight = true;
+
+
 	Player(int width, int height);
 	~Player();
 
