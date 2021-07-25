@@ -7,9 +7,17 @@
 #include "projectile.h"
 #include "random.h"
 #include "ingameText.h"
+#include "item.h"
+#include "animatedGIF.h"
 
 #define RESOURCE_DIR (string)"C:\\Users\\1z3r0\\Desktop\\game_project\\RPG\\Resources\\"
 using namespace std;
+
+enum types
+{
+    COIN = 1,
+    ETC
+};
 
 int main()
 {
@@ -28,6 +36,16 @@ int main()
         return EXIT_FAILURE;
     }
 
+    sf::Texture coinTexture;
+    if (!coinTexture.loadFromFile(RESOURCE_DIR + "coin.png"))
+    {
+        return EXIT_FAILURE;
+    }
+
+    AnimatedGIF gif((RESOURCE_DIR + "energyball.gif").c_str());
+    sf::Sprite energyBallSprite;
+    energyBallSprite.setScale(sf::Vector2f(0.2, 0.2));
+
     sf::Font maumFont;
     if (!maumFont.loadFromFile(RESOURCE_DIR + "godoMaum.ttf")) 
     {
@@ -40,6 +58,7 @@ int main()
     vector<Projectile>::const_iterator projectileIter;
     vector<Projectile> projectileArr;
     Projectile projectile;
+    projectile.sprite = energyBallSprite;
 
     vector<Enemy>::const_iterator enemyIter;
     vector<Enemy> enemyArr;
@@ -47,6 +66,15 @@ int main()
     Enemy enemy(0,0, 37, 50);
     enemy.sprite.setTexture(enemyTexture);
     enemyArr.push_back(enemy);
+
+    vector<Item>::const_iterator itemIter;
+    vector<Item> itemArr;
+
+    Item item(10,10, 200, 150, COIN);
+    item.sprite.setTexture(coinTexture);
+    item.sprite.setScale(sf::Vector2f(0.2, 0.2));
+    item.collisionRect.setPosition(500, 500);
+    itemArr.push_back(item);
 
     vector<IngameText>::const_iterator ingameTextIter;
     vector<IngameText> ingameTextArr;
@@ -56,6 +84,8 @@ int main()
     ingameText.text.setFont(maumFont);
     ingameTextArr.push_back(ingameText);
 
+    sf::Text scoreText("Score: ", maumFont, 50);
+    scoreText.setPosition(50, 50);
 
     int counter;
     int counter2;
@@ -77,12 +107,13 @@ int main()
         }
 
         window.clear();
-
+        //
         sf::Time projectileClockElapsed = projectileClock.getElapsedTime();
         sf::Time playerCollisionClockElapsed = playerCollisionClock.getElapsedTime();
         sf::Time elapsed3 = clock3.getElapsedTime();
 
-        // handle collision
+        
+        // projectile-enemy collision
         counter = 0;
         for (projectileIter = projectileArr.begin(); projectileIter != projectileArr.end(); projectileIter++)
         {
@@ -93,6 +124,7 @@ int main()
                 { 
                     projectileArr[counter].isAlive = false;
 
+                    ingameText.text.setFillColor(sf::Color::Red);
                     ingameText.text.setString(to_string((int)projectileArr[counter].attackDamage));
                     ingameText.text.setPosition(enemyArr[counter2].collisionRect.getPosition().x + enemyArr[counter2].collisionRect.getSize().x/2
                         , enemyArr[counter2].collisionRect.getPosition().y - enemyArr[counter2].collisionRect.getSize().y / 2);
@@ -109,17 +141,26 @@ int main()
             counter++;
         }
 
+        // delete not alive enemy
         counter = 0;
         for (enemyIter = enemyArr.begin(); enemyIter != enemyArr.end(); enemyIter++)
         {
             if (enemyArr[counter].isAlive == false)
             {
+                // generate item           
+                if (generateRandom(4) == 1)
+                {
+                    item.collisionRect.setPosition(enemyArr[counter].collisionRect.getPosition());
+                    itemArr.push_back(item);
+                }
+
                 enemyArr.erase(enemyIter);
                 break;
             }
             counter++;
         }
 
+        // delete not alive projectile
         counter = 0;
         for (projectileIter = projectileArr.begin(); projectileIter != projectileArr.end(); projectileIter++)
         {
@@ -131,6 +172,7 @@ int main()
             counter++;
         }
 
+        // delete not alive ingameText
         counter = 0;
         for (ingameTextIter = ingameTextArr.begin(); ingameTextIter != ingameTextArr.end(); ingameTextIter++)
         {
@@ -142,7 +184,19 @@ int main()
             counter++;
         }
 
+        // delete not alive item
+        counter = 0;
+        for (itemIter = itemArr.begin(); itemIter != itemArr.end(); itemIter++)
+        {
+            if (itemArr[counter].isAlive == false)
+            {
+                itemArr.erase(itemIter);
+                break;
+            }
+            counter++;
+        }
 
+        // player-enemy collision
         if (playerCollisionClockElapsed.asSeconds() >= 0.5)
         {
             playerCollisionClock.restart();
@@ -163,52 +217,84 @@ int main()
             }
         }
 
+        // player-item collision
+        counter = 0;
+        for (itemIter = itemArr.begin(); itemIter != itemArr.end(); itemIter++)
+        {
+            if (player1.collisionRect.getGlobalBounds().intersects(itemArr[counter].collisionRect.getGlobalBounds()))
+            {
+                if (itemArr[counter].type == COIN) {
+                    player1.score++;
+                }
+                itemArr[counter].isAlive = false;
+            }
+            counter++;
+        }
 
-
+        // create enemy (c-Key)
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
         {
             enemy.collisionRect.setPosition(generateRandom(window.getSize().x), generateRandom(window.getSize().y));
             enemyArr.push_back(enemy);
         }
 
+        // create projectile (space-Key)
         if (projectileClockElapsed.asSeconds() >= 0.5 && sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {
             projectileClock.restart();
+            projectile.sprite = energyBallSprite;
             projectile.collisionRect.setPosition(
-                player1.collisionRect.getPosition().x + player1.collisionRect.getSize().x/2 - projectile.collisionRect.getSize().x/2,
-                player1.collisionRect.getPosition().y + player1.collisionRect.getSize().y/2 - projectile.collisionRect.getSize().y/2);
+                player1.collisionRect.getPosition().x,
+                player1.collisionRect.getPosition().y);
             projectile.direction = player1.direction;
             projectileArr.push_back(projectile);
         }
 
+        // draw projectile
         counter = 0;
         for (projectileIter = projectileArr.begin(); projectileIter != projectileArr.end(); projectileIter++)
         {
             projectileArr[counter].update();
-            window.draw(projectileArr[counter].collisionRect);
+            // draw eneryball
+            gif.update(projectileArr[counter].sprite);
+            window.draw(projectileArr[counter].sprite);
             counter++;
         }
 
+        // draw enemy
         counter = 0;
         for (enemyIter = enemyArr.begin(); enemyIter != enemyArr.end(); enemyIter++)
         {
-            
-            //window.draw(enemyArr[counter].collisionRect);
-            window.draw(enemyArr[counter].sprite);
             enemyArr[counter].update();
+            window.draw(enemyArr[counter].sprite);
             counter++;
         }
 
+        // draw player, scoreText
         window.draw(player1.sprite);
         player1.update();
+        scoreText.setString("Score: " + to_string(player1.score));
+        window.draw(scoreText);
         
+        // draw ingameText
         counter = 0;
         for (ingameTextIter = ingameTextArr.begin(); ingameTextIter != ingameTextArr.end(); ingameTextIter++)
         {
-            window.draw(ingameTextArr[counter].text);
             ingameTextArr[counter].update();
+            window.draw(ingameTextArr[counter].text);
             counter++;
         }
+
+        // draw item
+        counter = 0;
+        for (itemIter = itemArr.begin(); itemIter != itemArr.end(); itemIter++)
+        {
+            itemArr[counter].update();
+            window.draw(itemArr[counter].sprite);
+            counter++;
+        }
+
+        
         //
         window.display();
     }

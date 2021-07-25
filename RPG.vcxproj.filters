@@ -36,6 +36,12 @@
     <ClCompile Include="ingameText.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="item.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="animatedGIF.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\sniper.jpg">
@@ -62,6 +68,15 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="ingameText.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="item.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="animatedGIF.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

@@ -6,10 +6,8 @@ Enemy::Enemy(int x, int y, int width, int height)
     spriteHeight = height;
     collisionRect.setSize(sf::Vector2f(spriteWidth, spriteHeight));
     collisionRect.setPosition(400, 200);
-    collisionRect.setFillColor(sf::Color::Blue);
-    
+    collisionRect.setFillColor(sf::Color::Blue);    
     sprite.setTextureRect(sf::IntRect(x, y, spriteWidth, spriteHeight));
-    sprite.setPosition(400, 200);
 }
 
 Enemy::~Enemy()

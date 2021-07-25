@@ -155,9 +155,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="animatedGIF.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="ingameText.cpp" />
+    <ClCompile Include="item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="projectile.cpp" />
@@ -168,12 +170,15 @@
     <Image Include="Resources\sniper.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="animatedGIF.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="entity.h" />
     <ClInclude Include="ingameText.h" />
+    <ClInclude Include="item.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="projectile.h" />
     <ClInclude Include="random.h" />
+    <ClInclude Include="stb_image.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
