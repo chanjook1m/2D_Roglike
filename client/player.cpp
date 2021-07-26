@@ -5,7 +5,7 @@ Player::Player(int width, int height)
     spriteWidth = width;
     spriteHeight = height;
 	collisionRect.setSize(sf::Vector2f(spriteWidth, spriteHeight));	
-	collisionRect.setPosition(400, 200);
+	collisionRect.setPosition(300, 400);
 	collisionRect.setFillColor(sf::Color::Blue);
     velocity = 2.0f;
     sprite.setTextureRect(sf::IntRect(0,0, spriteWidth, spriteHeight));

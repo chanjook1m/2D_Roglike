@@ -274,48 +274,40 @@ int main()
     
 
     // create wall and enemy in room
-    counter = 0;
-    while (counter < roomSize - 1)
+    counter = 1;
+    while (counter < roomSize - 2)
     {
-        counter2 = 0;
-        while (counter2 < roomSize - 1)
+        counter2 = 1;
+        while (counter2 < roomSize - 2)
         {
-            int tempRandom = generateRandom(7);
-
-            if (tempRandom == 1)
+            if (counter != counter2)
             {
-                // first room
-                wall.destructible = true;
-                wall.sprite.setTextureRect(wall.destructible ? sf::IntRect(0, 0, 18, 18) : sf::IntRect(0, 32, 18, 18));
-                wall.collisionRect.setPosition((counter * 50) + 50 + initialRoomX, (counter2 * 50) + 50 + initialRoomY);
-                wallArr.push_back(wall);
+                int tempRandom = generateRandom(7);
 
-                // second room
-                wall.destructible = true;
-                wall.sprite.setTextureRect(wall.destructible ? sf::IntRect(0, 0, 18, 18) : sf::IntRect(0, 32, 18, 18));
-                wall.collisionRect.setPosition(50 * counter + initialRoomX + (roomSize * 50) + 100, (counter2 * 50) + 50 + initialRoomY);
-                wallArr.push_back(wall);
+                if (tempRandom == 1)
+                {
+                    // first room
+                    wall.destructible = true;
+                    wall.sprite.setTextureRect(wall.destructible ? sf::IntRect(0, 0, 18, 18) : sf::IntRect(0, 32, 18, 18));
+                    wall.collisionRect.setPosition((counter * 50) + 100 + initialRoomX, (counter2 * 50) + 100 + initialRoomY);
+                    wallArr.push_back(wall);
 
-                // boss room
-                wall.destructible = true;
-                wall.sprite.setTextureRect(wall.destructible ? sf::IntRect(0, 0, 18, 18) : sf::IntRect(0, 32, 18, 18));
-                wall.collisionRect.setPosition(50 * counter + initialRoomX + (bossRoomSize * 50 * 4) + 100, (counter2 * 50) + 50 + initialRoomY);
-                wallArr.push_back(wall);
-                
-            }
-            else if (tempRandom == 2)
-            {
-                // first room
-                enemy.collisionRect.setPosition((counter * 50) + 50 + initialRoomX, (counter2 * 50) + 50 + initialRoomY);
-                enemyArr.push_back(enemy);
+                    // second room
+                    wall.destructible = true;
+                    wall.sprite.setTextureRect(wall.destructible ? sf::IntRect(0, 0, 18, 18) : sf::IntRect(0, 32, 18, 18));
+                    wall.collisionRect.setPosition(50 * counter + initialRoomX + (roomSize * 50) + 150, (counter2 * 50) + 100 + initialRoomY);
+                    wallArr.push_back(wall);
+                }
+                else if (tempRandom == 2)
+                {
+                    // first room
+                    enemy.collisionRect.setPosition((counter * 50) + 100 + initialRoomX, (counter2 * 50) + 100 + initialRoomY);
+                    enemyArr.push_back(enemy);
 
-                // second room
-                enemy.collisionRect.setPosition(50 * counter + initialRoomX + (roomSize * 50) + 100, (counter2 * 50) + 50 + initialRoomY);
-                enemyArr.push_back(enemy);
-
-                // boss room
-                enemy.collisionRect.setPosition(50 * counter + initialRoomX + (bossRoomSize * 50) + 100, (counter2 * 50 * 4) + 50 + initialRoomY);
-                enemyArr.push_back(enemy);
+                    // second room
+                    enemy.collisionRect.setPosition(50 * counter + initialRoomX + (roomSize * 50) + 150, (counter2 * 50) + 100 + initialRoomY);
+                    enemyArr.push_back(enemy);
+                }
             }
             counter2++;
         }
