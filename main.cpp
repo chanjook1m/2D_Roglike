@@ -94,8 +94,8 @@ int main()
     vector<Wall> wallArr;
     Wall wall;
 
-    //wall.destructible = true;
-    int roomSize = 5;
+    // create room
+    int roomSize = 10;
     int verticalDoorAt = 2;
     int horizontalDoorAt = 2;
     int initialRoomX = 200;
@@ -104,6 +104,7 @@ int main()
     counter = 0;
     while (counter < roomSize)
     {
+        // first room
         wall.collisionRect.setPosition(50 * counter + initialRoomX, initialRoomY);
         wall.destructible = generateRandomBool();
         wall.collisionRect.setFillColor(wall.destructible ? sf::Color::Magenta : sf::Color::White);
@@ -116,17 +117,70 @@ int main()
         wall.destructible = generateRandomBool();
         wall.collisionRect.setFillColor(wall.destructible ? sf::Color::Magenta : sf::Color::White);
         wallArr.push_back(wall);
-        if (counter != verticalDoorAt)
+        wall.collisionRect.setPosition(50 * roomSize + initialRoomX, 50 * counter + initialRoomY);
+        wall.destructible = generateRandomBool();
+        wall.collisionRect.setFillColor(wall.destructible ? sf::Color::Magenta : sf::Color::White);
+        wallArr.push_back(wall);
+
+        // second room
+        wall.collisionRect.setPosition(50 * counter + initialRoomX + (roomSize * 50) + 50, initialRoomY);
+        wall.destructible = generateRandomBool();
+        wall.collisionRect.setFillColor(wall.destructible ? sf::Color::Magenta : sf::Color::White);
+        wallArr.push_back(wall);
+        wall.collisionRect.setPosition(50 * counter + initialRoomX + (roomSize * 50) + 50, 50 * roomSize + initialRoomY);
+        wall.destructible = generateRandomBool();
+        wall.collisionRect.setFillColor(wall.destructible ? sf::Color::Magenta : sf::Color::White);
+        wallArr.push_back(wall);
+        wall.collisionRect.setPosition(initialRoomX + (roomSize * 50) + 50, 50 * counter + initialRoomY);
+        wall.destructible = generateRandomBool();
+        wall.collisionRect.setFillColor(wall.destructible ? sf::Color::Magenta : sf::Color::White);
+        wallArr.push_back(wall);
+        wall.collisionRect.setPosition(50 * roomSize + initialRoomX + (roomSize * 50) + 50, 50 * counter + initialRoomY);
+        wall.destructible = generateRandomBool();
+        wall.collisionRect.setFillColor(wall.destructible ? sf::Color::Magenta : sf::Color::White);
+        wallArr.push_back(wall);
+        
+        counter++;
+    }
+
+    // create wall and enemy in room
+    counter = 0;
+    while (counter < roomSize - 1)
+    {
+        counter2 = 0;
+        while (counter2 < roomSize - 1)
         {
-            wall.collisionRect.setPosition(50 * roomSize + initialRoomX, 50 * counter + initialRoomY);
-            wall.destructible = generateRandomBool();
-            wall.collisionRect.setFillColor(wall.destructible ? sf::Color::Magenta : sf::Color::White);
-            wallArr.push_back(wall);
+            int tempRandom = generateRandom(5);
+
+            if (tempRandom == 1)
+            {
+                // first room
+                wall.destructible = true;
+                wall.collisionRect.setFillColor(sf::Color::Magenta);
+                wall.collisionRect.setPosition((counter * 50) + 50 + initialRoomX, (counter2 * 50) + 50 + initialRoomY);
+                wallArr.push_back(wall);
+
+                // second room
+                wall.destructible = true;
+                wall.collisionRect.setFillColor(sf::Color::Magenta);
+                wall.collisionRect.setPosition(50 * counter + initialRoomX + (roomSize * 50) + 100, (counter2 * 50) + 50 + initialRoomY);
+                wallArr.push_back(wall);
+                
+            }
+            if (tempRandom == 2)
+            {
+                // first room
+                enemy.collisionRect.setPosition((counter * 50) + 50 + initialRoomX, (counter2 * 50) + 50 + initialRoomY);
+                enemyArr.push_back(enemy);
+
+                // second room
+                enemy.collisionRect.setPosition(50 * counter + initialRoomX + (roomSize * 50) + 100, (counter2 * 50) + 50 + initialRoomY);
+                enemyArr.push_back(enemy);
+            }
+            counter2++;
         }
         counter++;
     }
-    wall.collisionRect.setPosition(50 * roomSize + initialRoomX, 50 * roomSize + initialRoomY);
-    wallArr.push_back(wall);
 
     vector<IngameText>::const_iterator ingameTextIter;
     vector<IngameText> ingameTextArr;

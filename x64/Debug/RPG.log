@@ -27,19 +27,33 @@ C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(89,47): warning C4305: '인수
           [
               T=float
           ]
-C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(107,69): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(107,53): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(111,83): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(111,53): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(115,67): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(115,40): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(121,87): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(121,58): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(128,80): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(128,50): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(185,81): warning C4244: '-=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(205,65): warning C4244: '-=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(321,84): warning C4244: '-=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(435,95): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(435,59): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(108,69): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(108,53): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(112,83): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(112,53): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(116,67): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(116,40): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(120,83): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(120,54): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(126,92): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(126,86): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(130,106): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(130,86): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(134,90): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(134,71): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(138,106): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(138,87): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(160,105): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(160,68): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(166,122): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(166,94): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(173,106): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(173,69): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(177,123): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(177,95): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(239,81): warning C4244: '-=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(259,65): warning C4244: '-=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(375,84): warning C4244: '-=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(489,95): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\1z3r0\Desktop\game\2D_Roguelike\main.cpp(489,59): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   RPG.vcxproj -> C:\Users\1z3r0\Desktop\game\2D_Roguelike\x64\Debug\RPG.exe
