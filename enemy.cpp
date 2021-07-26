@@ -30,29 +30,41 @@ void Enemy::move()
     {
         collisionRect.move(0.f, -velocity);
         sprite.setTextureRect(sf::IntRect(walkSpriteNumber * spriteWidth + x, spriteHeight * 3 + y, spriteWidth, spriteHeight));
-    }
-    else if (direction == 2 && canMoveDown)
-    {
-        collisionRect.move(0.f, velocity);
-        sprite.setTextureRect(sf::IntRect(walkSpriteNumber * spriteWidth + x, 0 + y, spriteWidth, spriteHeight));
-    }
-    else if (direction == 3 && canMoveLeft)
-    {
-        collisionRect.move(-velocity, 0.f);
-        sprite.setTextureRect(sf::IntRect(walkSpriteNumber * spriteWidth + x, spriteHeight * 1 + y, spriteWidth, spriteHeight));
-    }
-    else if (direction == 4 && canMoveRight)
-    {
-        collisionRect.move(velocity, 0.f);
-        sprite.setTextureRect(sf::IntRect(walkSpriteNumber * spriteWidth + x, spriteHeight * 2 + y, spriteWidth, spriteHeight));
-    }
-    else
-    {
         canMoveUp = true;
         canMoveDown = true;
         canMoveLeft = true;
         canMoveRight = true;
     }
+    else if (direction == 2 && canMoveDown)
+    {
+        collisionRect.move(0.f, velocity);
+        sprite.setTextureRect(sf::IntRect(walkSpriteNumber * spriteWidth + x, 0 + y, spriteWidth, spriteHeight));
+        canMoveUp = true;
+        canMoveDown = true;
+        canMoveLeft = true;
+        canMoveRight = true;
+    }
+    else if (direction == 3 && canMoveLeft)
+    {
+        collisionRect.move(-velocity, 0.f);
+        sprite.setTextureRect(sf::IntRect(walkSpriteNumber * spriteWidth + x, spriteHeight * 1 + y, spriteWidth, spriteHeight));
+        canMoveUp = true;
+        canMoveDown = true;
+        canMoveLeft = true;
+        canMoveRight = true;
+    }
+    else if (direction == 4 && canMoveRight)
+    {
+        collisionRect.move(velocity, 0.f);
+        sprite.setTextureRect(sf::IntRect(walkSpriteNumber * spriteWidth + x, spriteHeight * 2 + y, spriteWidth, spriteHeight));
+        canMoveUp = true;
+        canMoveDown = true;
+        canMoveLeft = true;
+        canMoveRight = true;
+    }
+    
+    
+    
 
     walkSpriteNumber++;
     if (walkSpriteNumber == 3) {

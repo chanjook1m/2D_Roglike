@@ -795,8 +795,8 @@ int main()
         {
             enemyArr[counter].text.setString("HP " + to_string(enemyArr[counter].hp) + "/" + to_string(enemyArr[counter].maxHp));
             window.draw(enemyArr[counter].text);
-            enemyArr[counter].update();
             window.draw(enemyArr[counter].sprite);
+            enemyArr[counter].update();
             counter++;
         }
 
