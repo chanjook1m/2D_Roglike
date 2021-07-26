@@ -56,6 +56,12 @@ int main()
         return EXIT_FAILURE;
     }
 
+    sf::Texture wallTexture;
+    if (!wallTexture.loadFromFile(RESOURCE_DIR + "wall.png"))
+    {
+        return EXIT_FAILURE;
+    }
+
     AnimatedGIF gif((RESOURCE_DIR + "energyball.gif").c_str());
     sf::Sprite energyBallSprite;
     energyBallSprite.setScale(sf::Vector2f(0.1, 0.1));
@@ -156,7 +162,11 @@ int main()
 
     vector<Wall>::const_iterator wallIter;
     vector<Wall> wallArr;
-    Wall wall;
+    Wall wall(0,32, 18,18);
+
+    wall.sprite.setTextureRect(sf::IntRect(0, 0, 18, 18));
+    wall.sprite.setTexture(wallTexture);
+    wall.sprite.setScale(3.0, 3.0);
 
     // create room
     int roomSize = 10;
@@ -171,37 +181,37 @@ int main()
         // first room
         wall.collisionRect.setPosition(50 * counter + initialRoomX, initialRoomY);
         wall.destructible = generateRandomBool();
-        wall.collisionRect.setFillColor(wall.destructible ? sf::Color::Magenta : sf::Color::White);
+        wall.sprite.setTextureRect(wall.destructible ? sf::IntRect(0, 0, 18, 18) : sf::IntRect(0, 32, 18, 18));
         wallArr.push_back(wall);
         wall.collisionRect.setPosition(50 * counter + initialRoomX, 50 * roomSize + initialRoomY);
         wall.destructible = generateRandomBool();
-        wall.collisionRect.setFillColor(wall.destructible ? sf::Color::Magenta : sf::Color::White);
+        wall.sprite.setTextureRect(wall.destructible ? sf::IntRect(0, 0, 18, 18) : sf::IntRect(0, 32, 18, 18));
         wallArr.push_back(wall);
         wall.collisionRect.setPosition(initialRoomX, 50 * counter + initialRoomY);
         wall.destructible = generateRandomBool();
-        wall.collisionRect.setFillColor(wall.destructible ? sf::Color::Magenta : sf::Color::White);
+        wall.sprite.setTextureRect(wall.destructible ? sf::IntRect(0, 0, 18, 18) : sf::IntRect(0, 32, 18, 18));
         wallArr.push_back(wall);
         wall.collisionRect.setPosition(50 * roomSize + initialRoomX, 50 * counter + initialRoomY);
         wall.destructible = generateRandomBool();
-        wall.collisionRect.setFillColor(wall.destructible ? sf::Color::Magenta : sf::Color::White);
+        wall.sprite.setTextureRect(wall.destructible ? sf::IntRect(0, 0, 18, 18) : sf::IntRect(0, 32, 18, 18));
         wallArr.push_back(wall);
 
         // second room
         wall.collisionRect.setPosition(50 * counter + initialRoomX + (roomSize * 50) + 50, initialRoomY);
         wall.destructible = generateRandomBool();
-        wall.collisionRect.setFillColor(wall.destructible ? sf::Color::Magenta : sf::Color::White);
+        wall.sprite.setTextureRect(wall.destructible ? sf::IntRect(0, 0, 18, 18) : sf::IntRect(0, 32, 18, 18));
         wallArr.push_back(wall);
         wall.collisionRect.setPosition(50 * counter + initialRoomX + (roomSize * 50) + 50, 50 * roomSize + initialRoomY);
         wall.destructible = generateRandomBool();
-        wall.collisionRect.setFillColor(wall.destructible ? sf::Color::Magenta : sf::Color::White);
+        wall.sprite.setTextureRect(wall.destructible ? sf::IntRect(0, 0, 18, 18) : sf::IntRect(0, 32, 18, 18));
         wallArr.push_back(wall);
         wall.collisionRect.setPosition(initialRoomX + (roomSize * 50) + 50, 50 * counter + initialRoomY);
         wall.destructible = generateRandomBool();
-        wall.collisionRect.setFillColor(wall.destructible ? sf::Color::Magenta : sf::Color::White);
+        wall.sprite.setTextureRect(wall.destructible ? sf::IntRect(0, 0, 18, 18) : sf::IntRect(0, 32, 18, 18));
         wallArr.push_back(wall);
         wall.collisionRect.setPosition(50 * roomSize + initialRoomX + (roomSize * 50) + 50, 50 * counter + initialRoomY);
         wall.destructible = generateRandomBool();
-        wall.collisionRect.setFillColor(wall.destructible ? sf::Color::Magenta : sf::Color::White);
+        wall.sprite.setTextureRect(wall.destructible ? sf::IntRect(0, 0, 18, 18) : sf::IntRect(0, 32, 18, 18));
         wallArr.push_back(wall);
 
         // third room
@@ -245,7 +255,7 @@ int main()
         counter2 = 0;
         while (counter2 < roomSize - 1)
         {
-            int tempRandom = generateRandom(5);
+            int tempRandom = generateRandom(7);
 
             if (tempRandom == 1)
             {
@@ -665,8 +675,8 @@ int main()
         counter = 0;
         for (wallIter = wallArr.begin(); wallIter != wallArr.end(); wallIter++)
         {
-            //wallArr[counter].update();
-            window.draw(wallArr[counter].collisionRect);
+            wallArr[counter].update();
+            window.draw(wallArr[counter].sprite);
             counter++;
         }
 
