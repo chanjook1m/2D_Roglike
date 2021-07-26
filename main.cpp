@@ -27,6 +27,11 @@ int main()
     sf::RenderWindow window(sf::VideoMode(1000, 800), "My RPG");
     window.setFramerateLimit(60);
 
+    sf::View view(sf::FloatRect(200, 200, 300, 200));
+    view.setSize(sf::Vector2f(window.getSize().x, window.getSize().y));
+    view.setCenter(sf::Vector2f(view.getSize().x/2, view.getSize().y/2));
+    window.setView(view);
+
     sf::Texture playerTexture;
     if (!playerTexture.loadFromFile(RESOURCE_DIR + "rpg_sprite_walk.png")) 
     {
@@ -477,6 +482,10 @@ int main()
             window.draw(wallArr[counter].collisionRect);
             counter++;
         }
+
+        // view player
+        window.setView(view);
+        view.setCenter(player1.collisionRect.getPosition());
 
         // draw player, scoreText
         window.draw(player1.sprite);
