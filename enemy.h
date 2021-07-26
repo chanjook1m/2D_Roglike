@@ -6,12 +6,12 @@
 class Enemy: public Entity
 {
 public:
-	float velocity = 2.0f;
+	float velocity = 1.0f;
 	float attackDamage = 5.0f;
 	int walkSpriteNumber = 0;
 	int direction = 0;
 	int delayCounter = 0;
-	int movementDelay = 100;
+	int movementDelay = 50;
 	int hp = 3;
 	int maxHp = 3;
 
@@ -19,6 +19,8 @@ public:
 	bool canMoveDown = true;
 	bool canMoveLeft = true;
 	bool canMoveRight = true;
+
+	int aggroedBy = 0;
 
 	Enemy(int x, int y, int width, int height);
 	~Enemy();

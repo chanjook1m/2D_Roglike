@@ -39,7 +39,7 @@ int main()
     }
 
     sf::Texture enemyTexture;
-    if (!enemyTexture.loadFromFile(RESOURCE_DIR + "monsta.png")) 
+    if (!enemyTexture.loadFromFile(RESOURCE_DIR + "goblin.png")) 
     {
         return EXIT_FAILURE;
     }
@@ -145,11 +145,13 @@ int main()
     vector<Enemy>::const_iterator enemyIter;
     vector<Enemy> enemyArr;
 
-    Enemy enemy(0,0, 37, 50);
+    Enemy enemy(0,0, 48, 48);
     enemy.sprite.setTexture(enemyTexture);
     enemy.text.setFont(maumFont);
     enemy.text.setFillColor(sf::Color::Red);
-    enemyArr.push_back(enemy);
+    //enemyArr.push_back(enemy);
+
+    
 
     vector<Item>::const_iterator itemIter;
     vector<Item> itemArr;
@@ -157,8 +159,8 @@ int main()
     Item item(10,10, 200, 150, COIN);
     item.sprite.setTexture(coinTexture);
     item.sprite.setScale(sf::Vector2f(0.2, 0.2));
-    item.collisionRect.setPosition(500, 500);
-    itemArr.push_back(item);
+    //item.collisionRect.setPosition(500, 500);
+    //itemArr.push_back(item);
 
     vector<Wall>::const_iterator wallIter;
     vector<Wall> wallArr;
@@ -170,6 +172,7 @@ int main()
 
     // create room
     int roomSize = 10;
+    int bossRoomSize = 15;
     int verticalDoorAt = 2;
     int horizontalDoorAt = 2;
     int initialRoomX = 200;
@@ -217,21 +220,43 @@ int main()
         // third room
         wall.collisionRect.setPosition(50 * counter + initialRoomX + (roomSize * 50 * 2) + 50, initialRoomY);
         wall.destructible = generateRandomBool();
-        wall.collisionRect.setFillColor(wall.destructible ? sf::Color::Magenta : sf::Color::White);
+        wall.sprite.setTextureRect(wall.destructible ? sf::IntRect(0, 0, 18, 18) : sf::IntRect(0, 32, 18, 18));
         wallArr.push_back(wall);
         wall.collisionRect.setPosition(50 * counter + initialRoomX + (roomSize * 50 * 2) + 50, 50 * roomSize + initialRoomY);
         wall.destructible = generateRandomBool();
-        wall.collisionRect.setFillColor(wall.destructible ? sf::Color::Magenta : sf::Color::White);
+        wall.sprite.setTextureRect(wall.destructible ? sf::IntRect(0, 0, 18, 18) : sf::IntRect(0, 32, 18, 18));
         wallArr.push_back(wall);
         wall.collisionRect.setPosition(initialRoomX + (roomSize * 50 * 2) + 50, 50 * counter + initialRoomY);
         wall.destructible = generateRandomBool();
-        wall.collisionRect.setFillColor(wall.destructible ? sf::Color::Magenta : sf::Color::White);
+        wall.sprite.setTextureRect(wall.destructible ? sf::IntRect(0, 0, 18, 18) : sf::IntRect(0, 32, 18, 18));
         wallArr.push_back(wall);
         wall.collisionRect.setPosition(50 * roomSize + initialRoomX + (roomSize * 50 * 2) + 50, 50 * counter + initialRoomY);
         wall.destructible = generateRandomBool();
-        wall.collisionRect.setFillColor(wall.destructible ? sf::Color::Magenta : sf::Color::White);
+        wall.sprite.setTextureRect(wall.destructible ? sf::IntRect(0, 0, 18, 18) : sf::IntRect(0, 32, 18, 18));
         wallArr.push_back(wall);
         
+        counter++;
+    }
+
+    counter = 0;
+    while (counter < bossRoomSize)
+    {
+        wall.collisionRect.setPosition(50 * counter + initialRoomX + (bossRoomSize * 50 * 2) + 50, initialRoomY);
+        wall.destructible = generateRandomBool();
+        wall.sprite.setTextureRect(wall.destructible ? sf::IntRect(0, 0, 18, 18) : sf::IntRect(0, 32, 18, 18));
+        wallArr.push_back(wall);
+        wall.collisionRect.setPosition(50 * counter + initialRoomX + (bossRoomSize * 50 * 2) + 50, 50 * bossRoomSize + initialRoomY);
+        wall.destructible = generateRandomBool();
+        wall.sprite.setTextureRect(wall.destructible ? sf::IntRect(0, 0, 18, 18) : sf::IntRect(0, 32, 18, 18));
+        wallArr.push_back(wall);
+        wall.collisionRect.setPosition(initialRoomX + (bossRoomSize * 50 * 2) + 50, 50 * counter + initialRoomY);
+        wall.destructible = generateRandomBool();
+        wall.sprite.setTextureRect(wall.destructible ? sf::IntRect(0, 0, 18, 18) : sf::IntRect(0, 32, 18, 18));
+        wallArr.push_back(wall);
+        wall.collisionRect.setPosition(50 * bossRoomSize + initialRoomX + (bossRoomSize * 50 * 2) + 50, 50 * counter + initialRoomY);
+        wall.destructible = generateRandomBool();
+        wall.sprite.setTextureRect(wall.destructible ? sf::IntRect(0, 0, 18, 18) : sf::IntRect(0, 32, 18, 18));
+        wallArr.push_back(wall);
         counter++;
     }
 
@@ -261,18 +286,24 @@ int main()
             {
                 // first room
                 wall.destructible = true;
-                wall.collisionRect.setFillColor(sf::Color::Magenta);
+                wall.sprite.setTextureRect(wall.destructible ? sf::IntRect(0, 0, 18, 18) : sf::IntRect(0, 32, 18, 18));
                 wall.collisionRect.setPosition((counter * 50) + 50 + initialRoomX, (counter2 * 50) + 50 + initialRoomY);
                 wallArr.push_back(wall);
 
                 // second room
                 wall.destructible = true;
-                wall.collisionRect.setFillColor(sf::Color::Magenta);
+                wall.sprite.setTextureRect(wall.destructible ? sf::IntRect(0, 0, 18, 18) : sf::IntRect(0, 32, 18, 18));
                 wall.collisionRect.setPosition(50 * counter + initialRoomX + (roomSize * 50) + 100, (counter2 * 50) + 50 + initialRoomY);
+                wallArr.push_back(wall);
+
+                // boss room
+                wall.destructible = true;
+                wall.sprite.setTextureRect(wall.destructible ? sf::IntRect(0, 0, 18, 18) : sf::IntRect(0, 32, 18, 18));
+                wall.collisionRect.setPosition(50 * counter + initialRoomX + (bossRoomSize * 50 * 4) + 100, (counter2 * 50) + 50 + initialRoomY);
                 wallArr.push_back(wall);
                 
             }
-            if (tempRandom == 2)
+            else if (tempRandom == 2)
             {
                 // first room
                 enemy.collisionRect.setPosition((counter * 50) + 50 + initialRoomX, (counter2 * 50) + 50 + initialRoomY);
@@ -281,11 +312,52 @@ int main()
                 // second room
                 enemy.collisionRect.setPosition(50 * counter + initialRoomX + (roomSize * 50) + 100, (counter2 * 50) + 50 + initialRoomY);
                 enemyArr.push_back(enemy);
+
+                // boss room
+                enemy.collisionRect.setPosition(50 * counter + initialRoomX + (bossRoomSize * 50) + 100, (counter2 * 50 * 4) + 50 + initialRoomY);
+                enemyArr.push_back(enemy);
             }
             counter2++;
         }
         counter++;
     }
+
+    // create enemy and wall in boss room
+
+    counter = 0;
+    while (counter < bossRoomSize - 1)
+    {
+        counter2 = 0;
+        while (counter2 < bossRoomSize - 1)
+        {
+            int tempRandom = generateRandom(40);
+
+            if (tempRandom == 1)
+            {
+                wall.destructible = true;
+                wall.sprite.setTextureRect(wall.destructible ? sf::IntRect(0, 0, 18, 18) : sf::IntRect(0, 32, 18, 18));
+                wall.collisionRect.setPosition(50 * counter + initialRoomX + (bossRoomSize * 50 * 2) + 100, (counter2 * 50) + 50 + initialRoomY);
+                wallArr.push_back(wall);
+            }
+            else if (tempRandom == 2)
+            {
+                enemy.collisionRect.setPosition(50 * counter + initialRoomX + (bossRoomSize * 50 * 2) + 100, (counter2 * 50) + 50 + initialRoomY);
+                enemyArr.push_back(enemy);
+            }
+            counter2++;
+        }
+        counter++;
+    }
+
+    Enemy boss(48 * 6, 0, 48, 48);
+    boss.sprite.setTexture(enemyTexture);
+    boss.text.setFont(maumFont);
+    boss.maxHp = 100;
+    boss.hp = 100;
+    boss.attackDamage = 10;
+    boss.collisionRect.setPosition(50 * bossRoomSize/2 + initialRoomX + (bossRoomSize * 50 * 2) + 100, (bossRoomSize/2 * 50) + 50 + initialRoomY);
+    boss.text.setFillColor(sf::Color::Red);
+    enemyArr.push_back(boss);
 
     vector<IngameText>::const_iterator ingameTextIter;
     vector<IngameText> ingameTextArr;
@@ -306,7 +378,7 @@ int main()
 
     sf::Clock projectileClock;
     sf::Clock playerCollisionClock;
-    sf::Clock clock3;
+    sf::Clock aggroClock;
 
     
     
@@ -327,7 +399,7 @@ int main()
         //
         sf::Time projectileClockElapsed = projectileClock.getElapsedTime();
         sf::Time playerCollisionClockElapsed = playerCollisionClock.getElapsedTime();
-        sf::Time elapsed3 = clock3.getElapsedTime();
+        sf::Time aggroClockElapsed = aggroClock.getElapsedTime();
 
         
         // projectile-enemy collision
@@ -352,20 +424,31 @@ int main()
                     if (enemyArr[counter2].hp <= 0)
                     {
                         enemyArr[counter2].isAlive = false;
+                        enemyArr[counter2].aggroedBy = 0;
                     }
+                    
                 }
                 counter2++;
             }
             counter++;
         }
 
-        // player-enemy collision
+        // player-enemy collision && enemy aggro
         if (playerCollisionClockElapsed.asSeconds() >= 0.5)
         {
             playerCollisionClock.restart();
             counter = 0;
             for (enemyIter = enemyArr.begin(); enemyIter != enemyArr.end(); enemyIter++)
             {
+                if (abs(player1.collisionRect.getPosition().y - enemyArr[counter].collisionRect.getPosition().y) <= 5 ||
+                    abs(player1.collisionRect.getPosition().x - enemyArr[counter].collisionRect.getPosition().x) <= 5)
+                {
+                    enemyArr[counter].aggroedBy = 1;
+                }
+                else
+                {
+                    enemyArr[counter].aggroedBy = 0;
+                }
                 if (player1.collisionRect.getGlobalBounds().intersects(enemyArr[counter].collisionRect.getGlobalBounds()))
                 {
                     hitSound.play();
@@ -647,6 +730,52 @@ int main()
                 projectileArr.push_back(projectile);
                 counter++;
             }
+        }
+
+        // enemy AI
+        counter = 0;
+        for (enemyIter = enemyArr.begin(); enemyIter != enemyArr.end(); enemyIter++)
+        {
+            if (enemyArr[counter].aggroedBy == 1)
+            {
+                if (aggroClockElapsed.asSeconds() > 1)
+                {
+                    aggroClock.restart();
+                }
+
+                int actionNumber = generateRandom(3);
+
+                switch (actionNumber) 
+                {
+                case 1:
+                    if (player1.collisionRect.getPosition().x < enemyArr[counter].collisionRect.getPosition().x &&
+                        player1.collisionRect.getPosition().y - enemyArr[counter].collisionRect.getPosition().y <= 40)
+                    {
+                        enemyArr[counter].direction = 3;
+                    }
+                    if (player1.collisionRect.getPosition().x > enemyArr[counter].collisionRect.getPosition().x &&
+                        player1.collisionRect.getPosition().y - enemyArr[counter].collisionRect.getPosition().y <= 40)
+                    {
+                        enemyArr[counter].direction = 4;
+                    }
+                    if (player1.collisionRect.getPosition().y < enemyArr[counter].collisionRect.getPosition().y &&
+                        player1.collisionRect.getPosition().x - enemyArr[counter].collisionRect.getPosition().x <= 40)
+                    {
+                        enemyArr[counter].direction = 1;
+                    }
+                    if (player1.collisionRect.getPosition().y > enemyArr[counter].collisionRect.getPosition().y &&
+                        player1.collisionRect.getPosition().x - enemyArr[counter].collisionRect.getPosition().x <= 40)
+                    {
+                        enemyArr[counter].direction = 2;
+                    }
+                    break;
+                case 2:
+                    break;
+                default:
+                    break;
+                }
+            }
+            counter++;
         }
 
         // draw projectile
