@@ -141,6 +141,8 @@ int main()
 
     Enemy enemy(0,0, 37, 50);
     enemy.sprite.setTexture(enemyTexture);
+    enemy.text.setFont(maumFont);
+    enemy.text.setFillColor(sf::Color::Red);
     enemyArr.push_back(enemy);
 
     vector<Item>::const_iterator itemIter;
@@ -201,9 +203,40 @@ int main()
         wall.destructible = generateRandomBool();
         wall.collisionRect.setFillColor(wall.destructible ? sf::Color::Magenta : sf::Color::White);
         wallArr.push_back(wall);
+
+        // third room
+        wall.collisionRect.setPosition(50 * counter + initialRoomX + (roomSize * 50 * 2) + 50, initialRoomY);
+        wall.destructible = generateRandomBool();
+        wall.collisionRect.setFillColor(wall.destructible ? sf::Color::Magenta : sf::Color::White);
+        wallArr.push_back(wall);
+        wall.collisionRect.setPosition(50 * counter + initialRoomX + (roomSize * 50 * 2) + 50, 50 * roomSize + initialRoomY);
+        wall.destructible = generateRandomBool();
+        wall.collisionRect.setFillColor(wall.destructible ? sf::Color::Magenta : sf::Color::White);
+        wallArr.push_back(wall);
+        wall.collisionRect.setPosition(initialRoomX + (roomSize * 50 * 2) + 50, 50 * counter + initialRoomY);
+        wall.destructible = generateRandomBool();
+        wall.collisionRect.setFillColor(wall.destructible ? sf::Color::Magenta : sf::Color::White);
+        wallArr.push_back(wall);
+        wall.collisionRect.setPosition(50 * roomSize + initialRoomX + (roomSize * 50 * 2) + 50, 50 * counter + initialRoomY);
+        wall.destructible = generateRandomBool();
+        wall.collisionRect.setFillColor(wall.destructible ? sf::Color::Magenta : sf::Color::White);
+        wallArr.push_back(wall);
         
         counter++;
     }
+
+    // generate shop item
+    item = Item(0, 0, 100, 100, POWERUP);
+    item.inShop = true;
+    item.cost = 10;
+    item.text.setFont(maumFont);
+    item.text.setFillColor(sf::Color::Green);
+    item.text.setString("Cost: " + to_string(item.cost));
+    item.sprite.setTexture(powerUpTexture);
+    item.collisionRect.setPosition((50 * roomSize / 2 + initialRoomX + (roomSize * 50 * 2) + 50), 50 * roomSize / 2 + initialRoomY);
+    itemArr.push_back(item);
+    item.inShop = false;
+    
 
     // create wall and enemy in room
     counter = 0;
@@ -252,7 +285,10 @@ int main()
     ingameText.text.setFont(maumFont);
     ingameTextArr.push_back(ingameText);
 
-    sf::Text scoreText("Score: ", maumFont, 50);
+    sf::Text hpText("Money: ", maumFont, 50);
+    hpText.setPosition(50, 50);
+
+    sf::Text scoreText("Money: ", maumFont, 50);
     scoreText.setPosition(50, 50);
 
     sf::Text powerUpText("Power Level: ", maumFont, 50);
@@ -346,20 +382,43 @@ int main()
         {
             if (player1.collisionRect.getGlobalBounds().intersects(itemArr[counter].collisionRect.getGlobalBounds()))
             {
-                if (itemArr[counter].type == COIN) 
+                if (itemArr[counter].inShop == false)
                 {
-                    coinSound.play();
-                    player1.score++;
-                } 
-                else if (itemArr[counter].type == POWERUP)
-                {
-                    powerUpSound.play();
-                    if (player1.powerUpLevel < player1.maxPowerUpLevel)
+                    if (itemArr[counter].type == COIN)
                     {
-                        player1.powerUpLevel++;
+                        coinSound.play();
+                        player1.score += 20;
+                    }
+                    else if (itemArr[counter].type == POWERUP)
+                    {
+                        powerUpSound.play();
+                        if (player1.powerUpLevel < player1.maxPowerUpLevel)
+                        {
+                            player1.powerUpLevel++;
+                        }
+                    }
+                    itemArr[counter].isAlive = false;
+                }
+                else
+                {
+                    if (player1.score >= itemArr[counter].cost && player1.powerUpLevel < 5)
+                    {
+                        powerUpSound.play();
+                        int num = player1.score / itemArr[counter].cost;
+                        
+                        if (player1.powerUpLevel + num >= 5)
+                        {
+                            num = 5 - player1.powerUpLevel;
+                            player1.powerUpLevel = 5;
+                        } 
+                        else
+                        {
+                            player1.powerUpLevel += num;
+                        }
+                        player1.score -= itemArr[counter].cost * num;
+                        
                     }
                 }
-                itemArr[counter].isAlive = false;
             }
             counter++;
         }
@@ -439,9 +498,10 @@ int main()
             {
                 if (projectileArr[counter].collisionRect.getGlobalBounds().intersects(wallArr[counter2].collisionRect.getGlobalBounds()))
                 {
-                    wallCollisionSound.play();
+                    
                     if (wallArr[counter2].destructible == true)
                     {
+                        wallCollisionSound.play(); 
                         wallArr[counter2].hp -= projectileArr[counter].attackDamage;
 
                         if (wallArr[counter2].hp <= 0)
@@ -594,6 +654,8 @@ int main()
         counter = 0;
         for (enemyIter = enemyArr.begin(); enemyIter != enemyArr.end(); enemyIter++)
         {
+            enemyArr[counter].text.setString("HP " + to_string(enemyArr[counter].hp) + "/" + to_string(enemyArr[counter].maxHp));
+            window.draw(enemyArr[counter].text);
             enemyArr[counter].update();
             window.draw(enemyArr[counter].sprite);
             counter++;
@@ -615,10 +677,22 @@ int main()
         // draw player, scoreText
         window.draw(player1.sprite);
         player1.update();
-        scoreText.setString("Score: " + to_string(player1.score));
+
+        scoreText.setString("Money: " + to_string(player1.score));
         window.draw(scoreText);
+        scoreText.setPosition(player1.collisionRect.getPosition().x - window.getSize().x/2, 
+            player1.collisionRect.getPosition().y - window.getSize().y/2);
+        
         powerUpText.setString("Power Level: " + to_string(player1.powerUpLevel));
         window.draw(powerUpText);
+        powerUpText.setPosition(player1.collisionRect.getPosition().x - window.getSize().x / 2,
+            player1.collisionRect.getPosition().y - window.getSize().y / 2 + 50);
+
+        hpText.setString("HP: " + to_string(player1.hp) + "/" + to_string(player1.maxHp));
+        window.draw(hpText);
+        hpText.setPosition(player1.collisionRect.getPosition().x - window.getSize().x / 2,
+            player1.collisionRect.getPosition().y - window.getSize().y / 2 + 100);
+        
         
         // draw ingameText
         counter = 0;
@@ -633,6 +707,10 @@ int main()
         counter = 0;
         for (itemIter = itemArr.begin(); itemIter != itemArr.end(); itemIter++)
         {
+            if (itemArr[counter].inShop == true)
+            {
+                window.draw(itemArr[counter].text);
+            }
             itemArr[counter].update();
             window.draw(itemArr[counter].sprite);
             counter++;

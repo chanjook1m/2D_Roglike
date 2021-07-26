@@ -12,6 +12,7 @@ public:
 	int walkSpriteNumber = 0;
 	int direction = 0; // 1 = up, 2 = down, 3 = left, 4 = right
 	int hp = 10;
+	int maxHp = 10;
 	int score = 0;
 
 	bool canMoveUp = true;

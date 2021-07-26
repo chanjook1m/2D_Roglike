@@ -34,6 +34,7 @@ void Item::update()
 {
     animate();
 	sprite.setPosition(collisionRect.getPosition());
+    text.setPosition(collisionRect.getPosition().x, collisionRect.getPosition().y - 50);
 }
 
 void Item::animate()

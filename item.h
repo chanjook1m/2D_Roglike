@@ -19,6 +19,8 @@ public:
 	int animateDelay = 5;
 	int type = 0;
 	float scaleValue = 0.f;
+	bool inShop = false;
+	int cost = 0;
 
 	void update();
 	void animate();

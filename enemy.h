@@ -13,6 +13,7 @@ public:
 	int delayCounter = 0;
 	int movementDelay = 100;
 	int hp = 3;
+	int maxHp = 3;
 
 	bool canMoveUp = true;
 	bool canMoveDown = true;
