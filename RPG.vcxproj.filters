@@ -15,34 +15,34 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="client\animatedGIF.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="entity.cpp">
+    <ClCompile Include="client\enemy.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="player.cpp">
+    <ClCompile Include="client\entity.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="projectile.cpp">
+    <ClCompile Include="client\ingameText.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="enemy.cpp">
+    <ClCompile Include="client\item.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="random.cpp">
+    <ClCompile Include="client\main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="ingameText.cpp">
+    <ClCompile Include="client\player.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="item.cpp">
+    <ClCompile Include="client\projectile.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="animatedGIF.cpp">
+    <ClCompile Include="client\random.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="wall.cpp">
+    <ClCompile Include="client\wall.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -55,9 +55,6 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="entity.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="player.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -65,9 +62,6 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="enemy.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="random.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="ingameText.h">
@@ -79,10 +73,16 @@
     <ClInclude Include="animatedGIF.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="stb_image.h">
+    <ClInclude Include="wall.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="wall.h">
+    <ClInclude Include="client\random.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="client\stb_image.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="client\entity.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

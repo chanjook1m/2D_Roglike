@@ -89,7 +89,7 @@
       <PreprocessorDefinitions>
       </PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\External\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\client;$(SolutionDir)\External\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -107,7 +107,7 @@
       <PreprocessorDefinitions>
       </PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\External\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\client;$(SolutionDir)\External\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -125,7 +125,7 @@
       <PreprocessorDefinitions>
       </PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\External\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\client;$(SolutionDir)\External\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,7 +143,7 @@
       <PreprocessorDefinitions>
       </PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\External\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\client;$(SolutionDir)\External\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -155,16 +155,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="animatedGIF.cpp" />
-    <ClCompile Include="enemy.cpp" />
-    <ClCompile Include="entity.cpp" />
-    <ClCompile Include="ingameText.cpp" />
-    <ClCompile Include="item.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="player.cpp" />
-    <ClCompile Include="projectile.cpp" />
-    <ClCompile Include="random.cpp" />
-    <ClCompile Include="wall.cpp" />
+    <ClCompile Include="client\animatedGIF.cpp" />
+    <ClCompile Include="client\enemy.cpp" />
+    <ClCompile Include="client\entity.cpp" />
+    <ClCompile Include="client\ingameText.cpp" />
+    <ClCompile Include="client\item.cpp" />
+    <ClCompile Include="client\main.cpp" />
+    <ClCompile Include="client\player.cpp" />
+    <ClCompile Include="client\projectile.cpp" />
+    <ClCompile Include="client\random.cpp" />
+    <ClCompile Include="client\wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\rpg_sprite_walk.png" />
@@ -172,14 +172,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animatedGIF.h" />
+    <ClInclude Include="client\entity.h" />
+    <ClInclude Include="client\random.h" />
+    <ClInclude Include="client\stb_image.h" />
     <ClInclude Include="enemy.h" />
-    <ClInclude Include="entity.h" />
     <ClInclude Include="ingameText.h" />
     <ClInclude Include="item.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="projectile.h" />
-    <ClInclude Include="random.h" />
-    <ClInclude Include="stb_image.h" />
     <ClInclude Include="wall.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
