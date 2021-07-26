@@ -66,6 +66,68 @@ int main()
         return EXIT_FAILURE;
     }
 
+    sf::SoundBuffer shotBuffer;
+    if (!shotBuffer.loadFromFile(RESOURCE_DIR + "shot.ogg"))
+    {
+        return EXIT_FAILURE;
+    }
+    sf::Sound shotSound;
+    shotSound.setBuffer(shotBuffer);
+    
+    sf::SoundBuffer collisionBuffer;
+    if (!collisionBuffer.loadFromFile(RESOURCE_DIR + "collision.ogg"))
+    {
+        return EXIT_FAILURE;
+    }
+    sf::Sound collisionSound;
+    collisionSound.setBuffer(collisionBuffer);
+
+    sf::SoundBuffer wallCollisionBuffer;
+    if (!wallCollisionBuffer.loadFromFile(RESOURCE_DIR + "wall_collision.ogg"))
+    {
+        return EXIT_FAILURE;
+    }
+    sf::Sound wallCollisionSound;
+    wallCollisionSound.setBuffer(wallCollisionBuffer);
+
+    sf::SoundBuffer coinSoundBuffer;
+    if (!coinSoundBuffer.loadFromFile(RESOURCE_DIR + "coin.ogg"))
+    {
+        return EXIT_FAILURE;
+    }
+    sf::Sound coinSound;
+    coinSound.setBuffer(coinSoundBuffer);
+
+    sf::SoundBuffer hitBuffer;
+    if (!hitBuffer.loadFromFile(RESOURCE_DIR + "hit.ogg"))
+    {
+        return EXIT_FAILURE;
+    }
+    sf::Sound hitSound;
+    hitSound.setBuffer(hitBuffer);
+
+    sf::SoundBuffer powerUpSoundBuffer;
+    if (!powerUpSoundBuffer.loadFromFile(RESOURCE_DIR + "powerup.ogg"))
+    {
+        return EXIT_FAILURE;
+    }
+    sf::Sound powerUpSound;
+    powerUpSound.setBuffer(powerUpSoundBuffer);
+
+    sf::SoundBuffer backgroundBuffer;
+    if (!backgroundBuffer.loadFromFile(RESOURCE_DIR + "background.ogg"))
+    {
+        return EXIT_FAILURE;
+    }
+    sf::Sound backgroundSound;
+    backgroundSound.setBuffer(backgroundBuffer);
+
+    backgroundSound.setLoop(true);
+    backgroundSound.setVolume(20.f);
+    backgroundSound.play();
+
+    //
+
     Player player1(24, 32);
     player1.sprite.setTexture(playerTexture);
 
@@ -200,9 +262,12 @@ int main()
     sf::Clock playerCollisionClock;
     sf::Clock clock3;
 
+    
+    
     // run the program as long as the window is open
     while (window.isOpen())
     {
+        
         // check all the window's events that were triggered since the last iteration of the loop
         sf::Event event;
         while (window.pollEvent(event))
@@ -228,6 +293,7 @@ int main()
             {
                 if (projectileArr[counter].collisionRect.getGlobalBounds().intersects(enemyArr[counter2].collisionRect.getGlobalBounds()))
                 { 
+                    collisionSound.play();
                     projectileArr[counter].isAlive = false;
 
                     ingameText.text.setFillColor(sf::Color::Red);
@@ -256,6 +322,7 @@ int main()
             {
                 if (player1.collisionRect.getGlobalBounds().intersects(enemyArr[counter].collisionRect.getGlobalBounds()))
                 {
+                    hitSound.play();
                     player1.hp -= enemyArr[counter].attackDamage;
 
                     if (player1.powerUpLevel > 1)
@@ -281,10 +348,12 @@ int main()
             {
                 if (itemArr[counter].type == COIN) 
                 {
+                    coinSound.play();
                     player1.score++;
                 } 
                 else if (itemArr[counter].type == POWERUP)
                 {
+                    powerUpSound.play();
                     if (player1.powerUpLevel < player1.maxPowerUpLevel)
                     {
                         player1.powerUpLevel++;
@@ -370,6 +439,7 @@ int main()
             {
                 if (projectileArr[counter].collisionRect.getGlobalBounds().intersects(wallArr[counter2].collisionRect.getGlobalBounds()))
                 {
+                    wallCollisionSound.play();
                     if (wallArr[counter2].destructible == true)
                     {
                         wallArr[counter2].hp -= projectileArr[counter].attackDamage;
@@ -494,6 +564,7 @@ int main()
         counter = 0;
         if (projectileClockElapsed.asSeconds() >= 0.2 && sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {
+            shotSound.play();
             projectileClock.restart();
             projectile.sprite = energyBallSprite;
 
