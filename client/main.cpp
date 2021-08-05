@@ -942,7 +942,8 @@ int main()
 
         for (size_t i = 0; i < enemies.size(); i++)
         {
-            enemies[i].update();
+            if (!update)
+                enemies[i].update();
             window.draw(enemies[i].sprite);
         }
         if (update)
