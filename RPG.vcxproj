@@ -172,15 +172,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animatedGIF.h" />
+    <ClInclude Include="client\enemy.h" />
     <ClInclude Include="client\entity.h" />
+    <ClInclude Include="client\ingameText.h" />
+    <ClInclude Include="client\item.h" />
+    <ClInclude Include="client\player.h" />
+    <ClInclude Include="client\projectile.h" />
     <ClInclude Include="client\random.h" />
     <ClInclude Include="client\stb_image.h" />
-    <ClInclude Include="enemy.h" />
-    <ClInclude Include="ingameText.h" />
-    <ClInclude Include="item.h" />
-    <ClInclude Include="player.h" />
-    <ClInclude Include="projectile.h" />
-    <ClInclude Include="wall.h" />
+    <ClInclude Include="client\wall.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

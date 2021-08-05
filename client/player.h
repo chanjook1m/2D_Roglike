@@ -6,8 +6,8 @@ class Player: public Entity
 {
 public:
 	int id = 1;
-	float velocity = 0.f;
-	float attackDamage = 0.f;
+	int velocity = 2;	
+	float attackDamage = 1.0f;
 	int powerUpLevel = 1;
 	int maxPowerUpLevel = 4;
 	int walkSpriteNumber = 0;
@@ -21,7 +21,14 @@ public:
 	bool canMoveLeft = true;
 	bool canMoveRight = true;
 
-
+	int collisionRect_x = 300;
+	int collisionRect_y = 400;
+	
+	bool updated = false;
+	bool isMainPlayer = false;
+	bool shooted = false;
+	int projectile_x = collisionRect_x;
+	int projectile_y = collisionRect_y;
 	Player(int width, int height);
 	~Player();
 

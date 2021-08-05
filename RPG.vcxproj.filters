@@ -55,25 +55,7 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="player.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="projectile.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="enemy.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="ingameText.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="item.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="animatedGIF.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="wall.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="client\random.h">
@@ -83,6 +65,24 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="client\entity.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="client\player.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="client\enemy.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="client\item.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="client\projectile.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="client\wall.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="client\ingameText.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,6 +1,7 @@
 #include <SFML\Audio.hpp>
 #include <SFML\Graphics.hpp>
 #include <iostream>
+#include <SFML\Network.hpp>
 
 #include "player.h"
 #include "enemy.h"
@@ -19,11 +20,57 @@ enum types
     POWERUP,
 };
 
+sf::Packet& operator <<(sf::Packet& packet, const Player& m)
+{
+    return packet << m.id << m.velocity << m.attackDamage << m.direction << m.x << m.y << m.hp << m.powerUpLevel << m.canMoveUp << m.canMoveDown << m.canMoveLeft << m.canMoveRight << m.isAlive << m.collisionRect_x << m.collisionRect_y << m.projectile_x << m.projectile_y;
+}
+
+sf::Packet& operator >>(sf::Packet& packet, Player& m)
+{
+    return packet >> m.id >> m.velocity >> m.attackDamage >> m.direction >> m.x >> m.y >> m.hp >> m.powerUpLevel >> m.canMoveUp >> m.canMoveDown >> m.canMoveLeft >> m.canMoveRight >> m.isAlive >> m.collisionRect_x >> m.collisionRect_y >> m.projectile_x >> m.projectile_y;
+}
+
 int main()
 {
     int counter;
     int counter2;
 
+    //
+    sf::IpAddress ip = sf::IpAddress::getLocalAddress();
+    std::string sIp = ip.toString();
+    sf::TcpSocket socket;
+    //socket.setBlocking(false);
+    bool done = false;
+    std::string id = "111";
+
+    //std::cout << "Enter your id: ";
+    //std::getline(std::cin, id);
+    ////std::cin >> id;
+    socket.connect(ip, 5555);
+    std::vector<sf::Text> chat;
+    sf::Packet packet;
+
+    packet << id;
+    socket.send(packet);
+    
+    std::vector <Player> enemies;
+    Player player1(24, 32);
+    player1.isMainPlayer = true;
+    
+    if (socket.receive(packet) == sf::Socket::Done)
+    {
+        if (packet.getDataSize() > 0)
+        {
+            if (packet >> player1)
+            {
+                std::cout << "Player ID: " << player1.id << std::endl;
+                player1.collisionRect.setPosition(player1.collisionRect_x, player1.collisionRect_y);
+            }
+        }
+    }
+    socket.setBlocking(false);
+
+    //
     sf::RenderWindow window(sf::VideoMode(1000, 800), "My RPG");
     window.setFramerateLimit(60);
 
@@ -134,8 +181,8 @@ int main()
 
     //
 
-    Player player1(24, 32);
     player1.sprite.setTexture(playerTexture);
+    
 
     vector<Projectile>::const_iterator projectileIter;
     vector<Projectile> projectileArr;
@@ -301,12 +348,12 @@ int main()
                 else if (tempRandom == 2)
                 {
                     // first room
-                    enemy.collisionRect.setPosition((counter * 50) + 100 + initialRoomX, (counter2 * 50) + 100 + initialRoomY);
-                    enemyArr.push_back(enemy);
+                    //enemy.collisionRect.setPosition((counter * 50) + 100 + initialRoomX, (counter2 * 50) + 100 + initialRoomY);
+                    //enemyArr.push_back(enemy);
 
-                    // second room
-                    enemy.collisionRect.setPosition(50 * counter + initialRoomX + (roomSize * 50) + 150, (counter2 * 50) + 100 + initialRoomY);
-                    enemyArr.push_back(enemy);
+                    //// second room
+                    //enemy.collisionRect.setPosition(50 * counter + initialRoomX + (roomSize * 50) + 150, (counter2 * 50) + 100 + initialRoomY);
+                    //enemyArr.push_back(enemy);
                 }
             }
             counter2++;
@@ -333,8 +380,8 @@ int main()
             }
             else if (tempRandom == 2)
             {
-                enemy.collisionRect.setPosition(50 * counter + initialRoomX + (bossRoomSize * 50 * 2) + 100, (counter2 * 50) + 50 + initialRoomY);
-                enemyArr.push_back(enemy);
+                //enemy.collisionRect.setPosition(50 * counter + initialRoomX + (bossRoomSize * 50 * 2) + 100, (counter2 * 50) + 50 + initialRoomY);
+                //enemyArr.push_back(enemy);
             }
             counter2++;
         }
@@ -349,7 +396,7 @@ int main()
     boss.attackDamage = 10;
     boss.collisionRect.setPosition(50 * bossRoomSize/2 + initialRoomX + (bossRoomSize * 50 * 2) + 100, (bossRoomSize/2 * 50) + 50 + initialRoomY);
     boss.text.setFillColor(sf::Color::Red);
-    enemyArr.push_back(boss);
+    //enemyArr.push_back(boss);
 
     vector<IngameText>::const_iterator ingameTextIter;
     vector<IngameText> ingameTextArr;
@@ -374,9 +421,87 @@ int main()
 
     
     
+    
     // run the program as long as the window is open
+    bool enemyUpdate = false;
+    bool update = false;
     while (window.isOpen())
     {
+        // receive update game packet
+        sf::Packet updatePacket;
+        sf::Socket::Status status = socket.receive(updatePacket);
+        if (status == sf::Socket::Done)
+
+        {
+            //std::cout << " Done" << std::endl;
+            if (updatePacket.getDataSize() > 0)
+            {
+                Player player(24, 32);
+                Player enem(24, 32);
+                updatePacket >> player;
+                
+                std::cout << player.id << " and " << player1.id << std::endl;
+                //std::cout << player.collisionRect_x << " and " << player.collisionRect_y << std::endl;
+                if (player.id == player1.id)
+                {
+                    std::cout << "player update" << std::endl;
+                    player1.hp = player.hp;
+                    player1.x = player.x;
+                    player1.y = player.y;
+                    player1.powerUpLevel = player.powerUpLevel;
+                    player1.direction = player.direction;
+                    player1.score = player.score;
+                    player1.canMoveUp = player.canMoveUp;
+                    player1.canMoveDown = player.canMoveDown;
+                    player1.canMoveLeft = player.canMoveLeft;
+                    player1.canMoveRight = player.canMoveRight;
+                    player1.collisionRect.setPosition(player.collisionRect_x, player.collisionRect_y);
+                    player1.sprite.setPosition(player1.collisionRect.getPosition());
+                }
+                else
+                {
+                    for (size_t i = 0; i < enemies.size(); i++)
+                    {
+                        if (enemies[i].id == player.id)
+                        {
+                            std::cout << "enemy update" << std::endl;
+                            enemies[i].hp = player.hp;
+                            enemies[i].x = player.x;
+                            enemies[i].y = player.y;
+                            enemies[i].powerUpLevel = player.powerUpLevel;
+                            enemies[i].direction = player.direction;
+                            enemies[i].score = player.score;
+                            enemies[i].canMoveUp = player.canMoveUp;
+                            enemies[i].canMoveDown = player.canMoveDown;
+                            enemies[i].canMoveLeft = player.canMoveLeft;
+                            enemies[i].canMoveRight = player.canMoveRight;
+                            enemies[i].collisionRect.setPosition(player.collisionRect_x, player.collisionRect_y);
+                            enemyUpdate = true;
+                        }
+                    }
+
+                    if (enemyUpdate == false)
+                    {
+                        //std::cout << "enemyUpdate " << player.id << std::endl;
+                        enem = player;
+                        enem.sprite.setTexture(playerTexture);
+                        enemies.push_back(enem);
+
+                    }
+                    enemyUpdate = false;
+                }   
+
+            }
+        }
+        //else if (status == sf::Socket::NotReady)
+        //    // ok, data received
+        //    std::cout << "Not Ready" << std::endl;
+        //else if (status == sf::Socket::Error)
+        //    // error
+        //    std::cout << "Error" << std::endl;
+        //else if (status == sf::Socket::Disconnected)
+        //    // disconnected
+        //    std::cout << "Disconnected" << std::endl;
         
         // check all the window's events that were triggered since the last iteration of the loop
         sf::Event event;
@@ -385,6 +510,10 @@ int main()
             // "close requested" event: we close the window
             if (event.type == sf::Event::Closed)
                 window.close();
+            else if (event.type == sf::Event::GainedFocus)
+                update = true;
+            else if (event.type == sf::Event::LostFocus)
+                update = false;
         }
 
         window.clear();
@@ -706,21 +835,24 @@ int main()
         }
 
         // create projectile (space-Key)
-        counter = 0;
-        if (projectileClockElapsed.asSeconds() >= 0.2 && sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        if (update)
         {
-            shotSound.play();
-            projectileClock.restart();
-            projectile.sprite = energyBallSprite;
-
-            while (counter < player1.powerUpLevel)
+            counter = 0;
+            if (projectileClockElapsed.asSeconds() >= 0.2 && sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
             {
-                projectile.collisionRect.setPosition(
-                    player1.collisionRect.getPosition().x + counter * generateRandom(10),
-                    player1.collisionRect.getPosition().y + counter * generateRandom(10));
-                projectile.direction = player1.direction;
-                projectileArr.push_back(projectile);
-                counter++;
+                shotSound.play();
+                projectileClock.restart();
+                projectile.sprite = energyBallSprite;
+
+                while (counter < player1.powerUpLevel)
+                {
+                    projectile.collisionRect.setPosition(
+                        player1.collisionRect.getPosition().x + counter * generateRandom(10),
+                        player1.collisionRect.getPosition().y + counter * generateRandom(10));
+                    projectile.direction = player1.direction;
+                    projectileArr.push_back(projectile);
+                    counter++;
+                }
             }
         }
 
@@ -805,9 +937,27 @@ int main()
         window.setView(view);
         view.setCenter(player1.collisionRect.getPosition());
 
-        // draw player, scoreText
+        // draw player , scoreText
         window.draw(player1.sprite);
-        player1.update();
+
+        for (size_t i = 0; i < enemies.size(); i++)
+        {
+            enemies[i].update();
+            window.draw(enemies[i].sprite);
+        }
+        if (update)
+        {
+            player1.update();
+            if (player1.updated == true)
+            {
+                sf::Packet movePacket;
+                movePacket << player1;
+                std::cout << player1.id << " : " << player1.collisionRect_x << " and " << player1.collisionRect_y << std::endl;
+                socket.send(movePacket);
+                player1.updated = false;
+            }
+        }
+        
 
         scoreText.setString("Money: " + to_string(player1.score));
         window.draw(scoreText);
