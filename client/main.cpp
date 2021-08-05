@@ -22,12 +22,12 @@ enum types
 
 sf::Packet& operator <<(sf::Packet& packet, const Player& m)
 {
-    return packet << m.id << m.velocity << m.attackDamage << m.direction << m.x << m.y << m.hp << m.powerUpLevel << m.canMoveUp << m.canMoveDown << m.canMoveLeft << m.canMoveRight << m.isAlive << m.collisionRect_x << m.collisionRect_y << m.projectile_x << m.projectile_y;
+    return packet << m.id << m.velocity << m.attackDamage << m.direction << m.x << m.y << m.hp << m.powerUpLevel << m.canMoveUp << m.canMoveDown << m.canMoveLeft << m.canMoveRight << m.isAlive << m.collisionRect_x << m.collisionRect_y << m.projectile_x << m.projectile_y << m.shooted;
 }
 
 sf::Packet& operator >>(sf::Packet& packet, Player& m)
 {
-    return packet >> m.id >> m.velocity >> m.attackDamage >> m.direction >> m.x >> m.y >> m.hp >> m.powerUpLevel >> m.canMoveUp >> m.canMoveDown >> m.canMoveLeft >> m.canMoveRight >> m.isAlive >> m.collisionRect_x >> m.collisionRect_y >> m.projectile_x >> m.projectile_y;
+    return packet >> m.id >> m.velocity >> m.attackDamage >> m.direction >> m.x >> m.y >> m.hp >> m.powerUpLevel >> m.canMoveUp >> m.canMoveDown >> m.canMoveLeft >> m.canMoveRight >> m.isAlive >> m.collisionRect_x >> m.collisionRect_y >> m.projectile_x >> m.projectile_y >> m.shooted;
 }
 
 int main()
@@ -455,8 +455,27 @@ int main()
                     player1.canMoveDown = player.canMoveDown;
                     player1.canMoveLeft = player.canMoveLeft;
                     player1.canMoveRight = player.canMoveRight;
+                    player1.projectile_x = player.projectile_x;
+                    player1.projectile_y = player.projectile_y;
                     player1.collisionRect.setPosition(player.collisionRect_x, player.collisionRect_y);
                     player1.sprite.setPosition(player1.collisionRect.getPosition());
+
+                    if (player.shooted)
+                    {
+                        std::cout << "shooted1" << std::endl;
+                        counter = 0;
+                        projectile.sprite = energyBallSprite;
+                        projectile.id = player.id;
+                        while (counter < player.powerUpLevel)
+                        {
+                            projectile.collisionRect.setPosition(
+                                player.collisionRect.getPosition().x + counter * generateRandom(10),
+                                player.collisionRect.getPosition().y + counter * generateRandom(10));
+                            projectile.direction = player.direction;
+                            projectileArr.push_back(projectile);
+                            counter++;
+                        }
+                    }
                 }
                 else
                 {
@@ -475,8 +494,26 @@ int main()
                             enemies[i].canMoveDown = player.canMoveDown;
                             enemies[i].canMoveLeft = player.canMoveLeft;
                             enemies[i].canMoveRight = player.canMoveRight;
+                            enemies[i].projectile_x = player.projectile_x;
+                            enemies[i].projectile_y = player.projectile_y;
                             enemies[i].collisionRect.setPosition(player.collisionRect_x, player.collisionRect_y);
                             enemyUpdate = true;
+
+                            if (player.shooted)
+                            {
+                                counter = 0;
+                                projectile.sprite = energyBallSprite;
+                                projectile.id = player.id;
+                                while (counter < player.powerUpLevel)
+                                {
+                                    projectile.collisionRect.setPosition(
+                                        player.collisionRect.getPosition().x + counter * generateRandom(10),
+                                        player.collisionRect.getPosition().y + counter * generateRandom(10));
+                                    projectile.direction = player.direction;
+                                    projectileArr.push_back(projectile);
+                                    counter++;
+                                }
+                            }
                         }
                     }
 
@@ -842,7 +879,13 @@ int main()
             {
                 shotSound.play();
                 projectileClock.restart();
-                projectile.sprite = energyBallSprite;
+                sf::Packet shootPacket;
+                player1.shooted = true;
+                shootPacket << player1;
+                //std::cout << player1.id << " : " << player1.collisionRect_x << " and " << player1.collisionRect_y << std::endl;
+                socket.send(shootPacket);
+                player1.updated = false;
+                /*projectile.sprite = energyBallSprite;
 
                 while (counter < player1.powerUpLevel)
                 {
@@ -852,7 +895,7 @@ int main()
                     projectile.direction = player1.direction;
                     projectileArr.push_back(projectile);
                     counter++;
-                }
+                }*/
             }
         }
 
@@ -906,10 +949,27 @@ int main()
         counter = 0;
         for (projectileIter = projectileArr.begin(); projectileIter != projectileArr.end(); projectileIter++)
         {
-            projectileArr[counter].update();
-            // draw eneryball
-            gif.update(projectileArr[counter].sprite);
-            window.draw(projectileArr[counter].sprite);
+            for (size_t i = 0; i < enemies.size(); i++)
+            {
+                if (enemies[i].id == projectileArr[counter].id)
+                {
+                    projectileArr[counter].update();
+                    projectileArr[counter].collisionRect.setPosition(enemies[i].projectile_x, enemies[i].projectile_y);
+                    // draw eneryball
+                    gif.update(projectileArr[counter].sprite);
+                    window.draw(projectileArr[counter].sprite);
+                }
+            }
+
+            if (player1.id == projectileArr[counter].id)
+            {
+                //std::cout << "shooted2: " << player1.projectile_x << " : " << player1.projectile_y << std::endl;
+                projectileArr[counter].collisionRect.setPosition(player1.projectile_x, player1.projectile_y);
+                projectileArr[counter].sprite.setPosition(projectileArr[counter].collisionRect.getPosition());
+                //projectileArr[counter].update();
+                gif.update(projectileArr[counter].sprite);
+                window.draw(projectileArr[counter].sprite);
+            }
             counter++;
         }
 
@@ -951,11 +1011,11 @@ int main()
             player1.update();
             if (player1.updated == true)
             {
-                sf::Packet movePacket;
-                movePacket << player1;
-                std::cout << player1.id << " : " << player1.collisionRect_x << " and " << player1.collisionRect_y << std::endl;
-                socket.send(movePacket);
-                player1.updated = false;
+                    sf::Packet movePacket;
+                    movePacket << player1;
+                    std::cout << player1.id << " : " << player1.collisionRect_x << " and " << player1.collisionRect_y << std::endl;
+                    socket.send(movePacket);
+                    player1.updated = false;
             }
         }
         
